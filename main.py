@@ -20,20 +20,44 @@ DATE_FORMAT = '%d/%m/%Y'
 class Event(db.Model):
     date = db.DateTimeProperty(required=True)
     location = db.StringProperty(required=True, verbose_name='Lieu')
-    title = db.StringProperty(default=" ", verbose_name='Intitulé (optionnel)')
+    title = db.StringProperty(default=" ", 
+            verbose_name='Intitulé (optionnel)')
     description = db.TextProperty(default=" ")
+    live = db.BooleanProperty(default=False, verbose_name="Publier")
+    updated_at = db.DateTimeProperty(auto_now=True)
 
     @property
     def formatted_date(self):
         return self.date.strftime(DATE_FORMAT)
 
     @property
+    def description_paragraphs(self):
+        return self.description.split('\r\n\r\n')
+
+    @property
+    def short_description(self):
+        return ' '.join(self.description.split()[:100]) + ' (...)'
+
+    @property
+    def formatted_live(self):
+        return 'Oui' if self.live is True else 'Non'
+
+    @property
+    def url(self):
+        return self.date.strftime("%Y/%m/%d")
+
+    @property
     def id(self):
         return self.key().id()
+
+    @property
+    def uuid(self):
+        return self.date.strftime("%d-%m-%Y") + "-" + str(self.id)
 
     @classmethod
     def get_reversed_list(cls):
         return cls.gql("ORDER BY date DESC")
+
         
 
 class EventForm(djangoforms.ModelForm):
@@ -114,10 +138,21 @@ class TestPage(webapp.RequestHandler):
         self.response.out.write(s)
 
 
+class EventsFeed(webapp.RequestHandler):
+    def get(self):
+        self.response.out.write(
+                template.render('templates/atom.xml',
+                    dict(events=Event.get_reversed_list(),
+                        host_url=self.request.host_url)))
+
+
+
+
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication( [ 
                 ('/', IndexPage), 
+                ('/events/atom', EventsFeed), 
                 ('/admin', AdminPage),
                 ('/admin/events', EventsManager),
                 ('/admin/events/delete', EventsDeleteHandler),

@@ -5,6 +5,7 @@
       <th>Lieu</th>
       <th>Intitulé</th>
       <th>Description</th>
+      <th>Publié</th>
       <th>Actions</th>
     </tr> 
   </thead>
@@ -21,7 +22,14 @@
         {{ event.title }}
       </td>
       <td  class="event_description">
-        {{ event.description }}
+        {% for p in event.description_paragraphs %}
+        <p>
+          {{ p }}
+        </p>
+        {% endfor %}
+      </td>
+      <td  class="event-live">
+        {{ event.formatted_live }}
       </td>
       <td>
         <a href="/admin/events?id={{event.id}}">Editer</a>

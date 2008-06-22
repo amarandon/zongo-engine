@@ -97,6 +97,11 @@ table#events td {
   vertical-align: top;
 }
 
+textarea {
+  width: 400px;
+  height: 200px;
+}
+
 .errorlist {
   color: red;
   background: #F9DA00;
