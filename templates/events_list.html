@@ -1,0 +1,33 @@
+<table id="events">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Lieu</th>
+      <th>Intitulé</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr> 
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr class="{% cycle eventodd,eventeven %}">
+      <td class="event-date">
+        {{ event.formatted_date }}
+      </td>
+      <td class="event-location">
+        {{ event.location }}
+      </td>
+      <td  class="event_title">
+        {{ event.title }}
+      </td>
+      <td  class="event_description">
+        {{ event.description }}
+      </td>
+      <td>
+        <a href="/admin/events?id={{event.id}}">Editer</a>
+        <a href="/admin/events/delete?id={{event.id}}">Supprimer</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

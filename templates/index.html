@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="homepage">
+
+
+  <div id="playlist">
+    {% include 'lastfm_playlist.html' %}
+  </div>
+
+  <div id="content">
+
+    <h2>Events</h2>
+    {% include 'events_list.html' %}
+
+
+  </div>
+</div>
+
+{% endblock %}
