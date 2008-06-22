@@ -15,36 +15,62 @@ body {
     margin-bottom: 2em;
 }
 
+#playlist {
+  float: left;
+  margin: auto;
+  width: 150px;
+  padding-left: 20px;
+}
+
+#content {
+  float: left;
+  width: 50%;
+}
+
+#page-footer {
+  clear: both;
+  margin: 1em;
+  font-size: smaller;
+  text-align: center;
+}
+
 h1 {
   color: black;
 }
 
-#playlist {
-    margin: auto;
-    float: left;
-    width: 150px;
-    padding-left: 20px;
+h3.event-title {
+  float: right;
+  color: black;
+  font-size: large;
+  font-weight: bold;
 }
 
-#content {
-  position: absolute;
-  left: 150px;
-/*  border: 1px solid black;*/
+th {
+  text-align: right;
+  vertical-align: top;
 }
 
+p.event-date {
+  float: left;
+  color: #F9DA00;
+  font-family: monospace;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+p.event-description {
+  clear: both;
+}
+
+p.event-location {
+  font-family: monospace;
+  color: black;
+  font-weight: bold;
+}
+
+/* Admin */
 #admin_content {
   margin: 2em;
-}
-
-label  { display: block; }
-
-#event_inputs {
-  float: left; 
-  padding-right: 1em;
-}
-
-#event_inputs div {
-  margin-top:1em;
 }
 
 table#events {
@@ -54,34 +80,30 @@ table#events {
   text-align: left;
 }
 
-th {
+table#events th {
   padding-bottom: 1em;
   padding-right: 1em;
   text-align: center;
 }
 
-tr.eventodd {
+table#events tr.eventodd {
   background: #3A8A2A;
 }
 
-td {
-  border-bottom: 1px dotted #F9DA00;
+table#events td {
+  border: 1px dotted #F9DA00;
   border-top: 1px dotted #F9DA00;
   padding: 1em;
+  vertical-align: top;
 }
 
-td.event-date {
-  border-right: 1px dotted #F9DA00 
+.errorlist {
+  color: red;
+  background: #F9DA00;
+  list-style: none;
+  margin: 0;
 }
 
-td.event-location {
-  border-right: 1px dotted #F9DA00 
-}
-
-#page-footer {
-/*  border: 1px solid black;*/
-  clear: both;
-  margin: 1em;
-  font-size: smaller;
-  text-align: center;
+.errorlist li {
+  margin: 0;
 }
