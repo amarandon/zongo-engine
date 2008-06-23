@@ -82,7 +82,14 @@ class AdminPage(webapp.RequestHandler):
         self.redirect("/admin/events")
 
 
-class EventsDeleteHandler(webapp.RequestHandler):
+class RequestHandler(webapp.RequestHandler):
+
+    def render_to_response(self, template_filename, **kw):
+        output = template.render('templates/' + template_filename, kw)
+        self.response.out.write(output)
+
+
+class EventsDeleteHandler(RequestHandler):
 
     def get(self):
         id = self.request.get('id')
@@ -91,7 +98,7 @@ class EventsDeleteHandler(webapp.RequestHandler):
         self.redirect("/admin/events")
 
 
-class EventsManager(webapp.RequestHandler):
+class EventsManager(RequestHandler):
 
     def get(self):
         template_params = dict(events=Event.get_reversed_list())
@@ -104,9 +111,8 @@ class EventsManager(webapp.RequestHandler):
         else:
             template_params['form'] = EventForm()
             template_params['operation'] = 'create'
-        self.response.out.write(
-                template.render('templates/events_manager.html', 
-                    template_params))
+        self.render_to_response('events_manager.html', 
+                    **template_params)
 
     def post(self):
         operation="create"
@@ -134,14 +140,11 @@ class EventsManager(webapp.RequestHandler):
                         template_params))
 
 
-class IndexPage(webapp.RequestHandler):
+class IndexPage(RequestHandler):
 
     def get(self):
-        self.response.out.write(
-                template.render(
-                    'templates/index.html',
-                    dict(events=Event.get_reversed_list())
-                ))
+        self.render_to_response('index.html', 
+                events=Event.get_reversed_list())
 
 
 class TestPage(webapp.RequestHandler):
@@ -152,13 +155,11 @@ class TestPage(webapp.RequestHandler):
         self.response.out.write(s)
 
 
-class EventsFeed(webapp.RequestHandler):
+class EventsFeed(RequestHandler):
     def get(self):
-        self.response.out.write(
-                template.render('templates/atom.xml',
-                    dict(events=Event.get_reversed_list(),
-                        host_url=self.request.host_url)))
-
+        self.render_to_response('atom.xml', 
+                events=Event.get_reversed_list(),
+                host_url=self.request.host_url)
 
 
 
@@ -173,6 +174,7 @@ def main():
                 ('/tests', TestPage),
                 ], debug=True)
     wsgiref.handlers.CGIHandler().run(application)
+
 
 if __name__ == "__main__":
     main()
