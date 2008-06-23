@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
- <feed xmlns="http://www.w3.org/2005/Atom">
-
-   <title>Dates de Zongo Sound</title>
-   <link href="{{host_url}}"/>
-   <updated>2003-12-13T18:30:02Z</updated>
-   <author>
-     <name>Zongo Sound</name>
-   </author>
-   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
-
-   {% for event in events %}
-   <entry>
-     <title>{{ event.title }}</title>
-     <link href="{{host_url}}/events/{{event.url}}"/>
-     <id>urn:uuid:{{event.uuid}}</id>
-     <updated>{{event.updated_at}}</updated>
-     <summary>
-       <![CDATA[
-       {{event.formatted_date}} -
-       {{event.location}} -
-       {{event.title}} -
-       {{event.short_description}}
-       ]]>
-     </summary>
-   </entry>
-   {% endfor %}
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Dates de Zongo Sound</title>
+  <link href="{{host_url}}"/>
+  <updated>2003-12-13T18:30:02Z</updated>
+  <author>
+    <name>Zongo Sound</name>
+  </author>
+  <id>http://zongosound.com/events/atom</id>
+  {% for event in events %}
+  <entry>
+    <title>{{ event.title }}</title>
+    <link href="{{host_url}}/events/{{event.url}}"/>
+    <id>{{event.atom_id}}</id>
+    <updated>{{event.atom_updated_at}}</updated>
+    <summary>
+      <![CDATA[
+      {{event.formatted_date}} -
+      {{event.location}} -
+      {{event.title}} -
+      {{event.short_description}}
+      ]]>
+    </summary>
+  </entry>
+  {% endfor %}
 </feed>

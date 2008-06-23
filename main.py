@@ -24,7 +24,9 @@ class Event(db.Model):
             verbose_name='Intitulé (optionnel)')
     description = db.TextProperty(default=" ")
     live = db.BooleanProperty(default=False, verbose_name="Publier")
+    created_at = db.DateTimeProperty(auto_now_add=True)
     updated_at = db.DateTimeProperty(auto_now=True)
+    atom_id = db.StringProperty()
 
     @property
     def formatted_date(self):
@@ -44,15 +46,23 @@ class Event(db.Model):
 
     @property
     def url(self):
-        return self.date.strftime("%Y/%m/%d")
+        return self.date.strftime("%Y/%m/%d") + '/' + str(self.id)
 
     @property
     def id(self):
         return self.key().id()
 
-    @property
-    def uuid(self):
-        return self.date.strftime("%d-%m-%Y") + "-" + str(self.id)
+    def build_atom_id(self):
+        return "tag:%(domain_name)s,%(date)s:/events/%(datetime)s" % dict(
+                domain_name='zongosound.com',
+                date=self.created_at.strftime("%Y-%m-%d"),
+                datetime=self.created_at.strftime("%Y%m%d%H%M%S")
+                )
+
+    def atom_updated_at(self):
+        rfc3339date = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S%z")
+        return rfc3339date
+
 
     @classmethod
     def get_reversed_list(cls):
@@ -63,6 +73,7 @@ class Event(db.Model):
 class EventForm(djangoforms.ModelForm):
     class Meta:
         model = Event
+        exclude = ['atom_id']
 
 
 class AdminPage(webapp.RequestHandler):
@@ -111,6 +122,8 @@ class EventsManager(webapp.RequestHandler):
             raise ValueError('Operation not supported')
         if data.is_valid():
             event = data.save(commit=False)
+            if operation == "create":
+                event.atom_id = event.build_atom_id()
             event.put()
             self.redirect("/admin/events")
         else:
@@ -129,6 +142,7 @@ class IndexPage(webapp.RequestHandler):
                     'templates/index.html',
                     dict(events=Event.get_reversed_list())
                 ))
+
 
 class TestPage(webapp.RequestHandler):
     def get(self):

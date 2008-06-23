@@ -14,9 +14,11 @@
       <p class="event-date">
         {{ event.formatted_date }}
       </p>
+      {% for p in event.description_paragraphs %}
       <p  class="event-description">
-        {{ event.formatted_description }}
+        {{ p }}
       </p>
+      {% endfor %}
       <p class="event-location">
         {{ event.location }}
       </p>
