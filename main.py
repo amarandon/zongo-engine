@@ -89,20 +89,29 @@ class RequestHandler(webapp.RequestHandler):
         self.response.out.write(output)
 
 
-class DeleteEventHandler(RequestHandler):
-
-    def get(self, id):
-        event = Event.get_by_id(int(id))
-        db.delete(event)
-        self.redirect("/admin/events")
-
-
-class AdminEventsList(RequestHandler):
+class ListEventHandler(RequestHandler):
 
     def get(self):
         self.render_to_response('admin/events_list.html', 
                     events=Event.get_reversed_list())
 
+
+class NewEventHandler(RequestHandler):
+
+    def get(self):
+        self.render_to_response('admin/events_form.html', 
+                form=EventForm(), operation='create')
+
+    def post(self):
+        data = EventForm(data=self.request.POST)
+        if data.is_valid():
+            event = data.save(commit=False)
+            event.atom_id = event.build_atom_id()
+            event.put()
+            self.redirect("/admin/events")
+        else:
+            self.render_to_response('admin/events_form.html', form=data,
+                    operation='create')
 
 
 class EditEventHandler(RequestHandler):
@@ -125,22 +134,12 @@ class EditEventHandler(RequestHandler):
                     operation='update', id=id)
 
 
-class NewEventHandler(RequestHandler):
+class DeleteEventHandler(RequestHandler):
 
-    def get(self):
-        self.render_to_response('admin/events_form.html', 
-                form=EventForm(), operation='create')
-
-    def post(self):
-        data = EventForm(data=self.request.POST)
-        if data.is_valid():
-            event = data.save(commit=False)
-            event.atom_id = event.build_atom_id()
-            event.put()
-            self.redirect("/admin/events")
-        else:
-            self.render_to_response('admin/events_form.html', form=data,
-                    operation='create')
+    def get(self, id):
+        event = Event.get_by_id(int(id))
+        db.delete(event)
+        self.redirect("/admin/events")
 
 
 
@@ -165,22 +164,31 @@ class EventsFeed(RequestHandler):
                 events=Event.get_reversed_list(),
                 host_url=self.request.host_url)
 
+def generate_admin_routes(name):
+    prefix = '/admin/' + name + 's'
+    map = { 
+            '': 'List', 
+            '/new': 'New', 
+            '/create': 'New', 
+            '/(\d+)/edit': 'Edit', 
+            '/(\d+)/update': 'Edit', 
+            '/(\d+)/delete': 'Delete'
+            }
+    routes = [(prefix + key, eval(value + name.capitalize() + 'Handler'))
+            for key, value in map.items()]
+    return routes
+
 
 
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
-    application = webapp.WSGIApplication( [ 
-                ('/', IndexPage), 
-                ('/events/atom', EventsFeed), 
-                ('/admin', AdminPage),
-                ('/admin/events', AdminEventsList),
-                ('/admin/events/new', NewEventHandler),
-                ('/admin/events/create', NewEventHandler),
-                ('/admin/events/(\d+)/edit', EditEventHandler),
-                ('/admin/events/(\d+)/update', EditEventHandler),
-                ('/admin/events/(\d+)/delete', DeleteEventHandler),
-                ('/tests', TestPage),
-                ], debug=True)
+    routes = [ ('/', IndexPage), 
+               ('/events/atom', EventsFeed), 
+               ('/admin', AdminPage),
+               ('/tests', TestPage) ]
+    routes += generate_admin_routes('event')
+    logging.debug(routes)
+    application = webapp.WSGIApplication(routes, debug=True)
     wsgiref.handlers.CGIHandler().run(application)
 
 
