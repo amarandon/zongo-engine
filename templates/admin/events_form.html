@@ -1,0 +1,39 @@
+{% extends "../layout.html" %}
+{% block content %}
+<div id="admin_content">
+  
+  <h2>Gestion des événements</h2>
+  <fieldset id="event_form">
+    <legend>
+    {% ifequal operation "update" %}
+    Éditer un événement :
+    {% else %}
+    Ajouter un événement :
+    {% endifequal %}
+    </legend>
+    {% ifequal operation "update" %}
+    <form method="post" action="/admin/events/{{id}}/update">
+    {% else %}
+    <form method="post" action="/admin/events/create">
+    {% endifequal %}
+      <table>
+      {{ form }}
+      <tr>
+        <th></th>
+        <td>
+          {% ifequal operation "update" %}
+          <input type="hidden" name="id" value="{{id}}"></input>
+          <input type="submit" name="update" value="Mettre à jour" />
+          {% else %}
+          <input type="submit" name="create" value="Ajouter" />
+          {% endifequal %}
+        </td>
+      </tr>
+      </table>
+      
+    </form>
+  </fieldset>
+
+</div>
+
+{% endblock %}

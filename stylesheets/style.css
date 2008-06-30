@@ -117,3 +117,11 @@ textarea {
 .errorlist li {
   margin: 0;
 }
+
+a {
+  color: #F9DA00;
+}
+
+a:hover {
+  background: black;
+}

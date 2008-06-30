@@ -89,55 +89,59 @@ class RequestHandler(webapp.RequestHandler):
         self.response.out.write(output)
 
 
-class EventsDeleteHandler(RequestHandler):
+class DeleteEventHandler(RequestHandler):
 
-    def get(self):
-        id = self.request.get('id')
-        event = Event.get(db.Key.from_path('Event', int(id)))
+    def get(self, id):
+        event = Event.get_by_id(int(id))
         db.delete(event)
         self.redirect("/admin/events")
 
 
-class EventsManager(RequestHandler):
+class AdminEventsList(RequestHandler):
 
     def get(self):
-        template_params = dict(events=Event.get_reversed_list())
-        id = self.request.get('id')
-        if id:
-            event = Event.get(db.Key.from_path('Event', int(id)))
-            template_params['form'] = EventForm(instance=event)
-            template_params['operation'] = 'update'
-            template_params['id'] = id
-        else:
-            template_params['form'] = EventForm()
-            template_params['operation'] = 'create'
-        self.render_to_response('events_manager.html', 
-                    **template_params)
+        self.render_to_response('admin/events_list.html', 
+                    events=Event.get_reversed_list())
 
-    def post(self):
-        operation="create"
-        if self.request.get('create'):
-            data = EventForm(data=self.request.POST)
-        elif self.request.get('update'):
-            operation="update"
-            id = int(self.request.get('id'))
-            event = Event.get(db.Key.from_path('Event', id))
-            assert event is not None
-            data = EventForm(data=self.request.POST, instance=event)
-        else:
-            raise ValueError('Operation not supported')
+
+
+class EditEventHandler(RequestHandler):
+
+    def get(self, id):
+        event = Event.get_by_id(int(id))
+        self.render_to_response('admin/events_form.html', 
+                form=EventForm(instance=event), operation='update', id=id)
+
+    def post(self, id):
+        event = Event.get_by_id(int(id))
+        assert event is not None
+        data = EventForm(data=self.request.POST, instance=event)
         if data.is_valid():
             event = data.save(commit=False)
-            if operation == "create":
-                event.atom_id = event.build_atom_id()
             event.put()
             self.redirect("/admin/events")
         else:
-            template_params = dict(events=Event.get_reversed_list(),
-                    form=data, operation=operation)
-            self.response.out.write(
-                    template.render('templates/events_manager.html',
-                        template_params))
+            self.render_to_response('admin/events_form.html', form=data,
+                    operation='update', id=id)
+
+
+class NewEventHandler(RequestHandler):
+
+    def get(self):
+        self.render_to_response('admin/events_form.html', 
+                form=EventForm(), operation='create')
+
+    def post(self):
+        data = EventForm(data=self.request.POST)
+        if data.is_valid():
+            event = data.save(commit=False)
+            event.atom_id = event.build_atom_id()
+            event.put()
+            self.redirect("/admin/events")
+        else:
+            self.render_to_response('admin/events_form.html', form=data,
+                    operation='create')
+
 
 
 class IndexPage(RequestHandler):
@@ -169,8 +173,12 @@ def main():
                 ('/', IndexPage), 
                 ('/events/atom', EventsFeed), 
                 ('/admin', AdminPage),
-                ('/admin/events', EventsManager),
-                ('/admin/events/delete', EventsDeleteHandler),
+                ('/admin/events', AdminEventsList),
+                ('/admin/events/new', NewEventHandler),
+                ('/admin/events/create', NewEventHandler),
+                ('/admin/events/(\d+)/edit', EditEventHandler),
+                ('/admin/events/(\d+)/update', EditEventHandler),
+                ('/admin/events/(\d+)/delete', DeleteEventHandler),
                 ('/tests', TestPage),
                 ], debug=True)
     wsgiref.handlers.CGIHandler().run(application)
