@@ -28,6 +28,10 @@ class Event(db.Model):
     updated_at = db.DateTimeProperty(auto_now=True)
     atom_id = db.StringProperty()
 
+    def __init__(self, parent=None, key_name=None, **kw):
+        db.Model.__init__(self, parent=parent, key_name=key_name, **kw)
+        self.atom_id = self.build_atom_id()
+
     @property
     def formatted_date(self):
         return self.date.strftime(DATE_FORMAT)
@@ -106,7 +110,6 @@ class NewEventHandler(RequestHandler):
         data = EventForm(data=self.request.POST)
         if data.is_valid():
             event = data.save(commit=False)
-            event.atom_id = event.build_atom_id()
             event.put()
             self.redirect("/admin/events")
         else:
