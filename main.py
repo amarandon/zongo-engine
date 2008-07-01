@@ -28,6 +28,14 @@ class Event(db.Model):
     updated_at = db.DateTimeProperty(auto_now=True)
     atom_id = db.StringProperty()
 
+    verbose_name = 'événement'
+    verbose_name_plural = 'événements'
+
+    code_name = 'event'
+    code_name_plural = 'events'
+
+    visible_properties = ('date', 'location', 'title', 'description', 'live')
+
     def __init__(self, parent=None, key_name=None, **kw):
         db.Model.__init__(self, parent=parent, key_name=key_name, **kw)
         self.atom_id = self.build_atom_id()
@@ -74,12 +82,6 @@ class Event(db.Model):
 
         
 
-class EventForm(djangoforms.ModelForm):
-    class Meta:
-        model = Event
-        exclude = ['atom_id']
-
-
 class AdminPage(webapp.RequestHandler):
 
     def get(self):
@@ -93,56 +95,61 @@ class RequestHandler(webapp.RequestHandler):
         self.response.out.write(output)
 
 
-class ListEventHandler(RequestHandler):
+class AdminListHandler(RequestHandler):
 
     def get(self):
-        self.render_to_response('admin/events_list.html', 
-                    events=Event.get_reversed_list())
+        properties = self.model.properties()
+        property_labels = [properties[name].verbose_name or name.capitalize() 
+                                for name
+                                in self.model.visible_properties]
+        self.render_to_response('admin/%ss_list.html' % self.name, 
+                    entities=self.model.get_reversed_list(),
+                    property_labels=property_labels)
 
 
-class NewEventHandler(RequestHandler):
+class AdminNewHandler(RequestHandler):
 
     def get(self):
-        self.render_to_response('admin/events_form.html', 
-                form=EventForm(), operation='create')
+        self.render_to_response('admin/%ss_form.html' % self.name, 
+                form=self.form(), model=self.model, operation='create')
 
     def post(self):
-        data = EventForm(data=self.request.POST)
+        data = self.form(data=self.request.POST)
         if data.is_valid():
-            event = data.save(commit=False)
-            event.put()
-            self.redirect("/admin/events")
+            entity = data.save(commit=False)
+            entity.put()
+            self.redirect("/admin/%ss" % self.name)
         else:
-            self.render_to_response('admin/events_form.html', form=data,
+            self.render_to_response('admin/%ss_form.html' % self.name, form=data, model=self.model, 
                     operation='create')
 
 
-class EditEventHandler(RequestHandler):
+class AdminEditHandler(RequestHandler):
 
     def get(self, id):
-        event = Event.get_by_id(int(id))
-        self.render_to_response('admin/events_form.html', 
-                form=EventForm(instance=event), operation='update', id=id)
+        entity = self.model.get_by_id(int(id))
+        self.render_to_response('admin/%ss_form.html' % self.name, 
+                form=self.form(instance=entity), model=self.model, operation='update', id=id)
 
     def post(self, id):
-        event = Event.get_by_id(int(id))
-        assert event is not None
-        data = EventForm(data=self.request.POST, instance=event)
+        entity = self.model.get_by_id(int(id))
+        assert entity is not None
+        data = self.form(data=self.request.POST, instance=entity)
         if data.is_valid():
-            event = data.save(commit=False)
-            event.put()
-            self.redirect("/admin/events")
+            entity = data.save(commit=False)
+            entity.put()
+            self.redirect("/admin/%ss" % self.name)
         else:
-            self.render_to_response('admin/events_form.html', form=data,
+            self.render_to_response('admin/%ss_form.html' % self.name, form=data, model=self.model,
                     operation='update', id=id)
 
 
-class DeleteEventHandler(RequestHandler):
+class AdminDeleteHandler(RequestHandler):
 
     def get(self, id):
-        event = Event.get_by_id(int(id))
-        db.delete(event)
-        self.redirect("/admin/events")
+        entity = self.model.get_by_id(int(id))
+        db.delete(entity)
+        self.redirect("/admin/%ss" % self.name)
 
 
 
@@ -167,8 +174,7 @@ class EventsFeed(RequestHandler):
                 events=Event.get_reversed_list(),
                 host_url=self.request.host_url)
 
-def generate_admin_routes(name):
-    prefix = '/admin/' + name + 's'
+def admin_routes(Model):
     map = { 
             '': 'List', 
             '/new': 'New', 
@@ -177,8 +183,18 @@ def generate_admin_routes(name):
             '/(\d+)/update': 'Edit', 
             '/(\d+)/delete': 'Delete'
             }
-    routes = [(prefix + key, eval(value + name.capitalize() + 'Handler'))
-            for key, value in map.items()]
+    name = Model.__name__.lower()
+    prefix = '/admin/%ss' % name
+
+    class Form(djangoforms.ModelForm):
+        class Meta:
+            model = Model
+            exclude = ['atom_id']
+
+    routes = [(prefix + path, type(action + name + 'Handler',
+                                   (eval('Admin' + action + 'Handler'),), 
+                                   dict(model=Model, name=name, form=Form)))
+                        for path, action in map.items()]
     return routes
 
 
@@ -189,7 +205,7 @@ def main():
                ('/events/atom', EventsFeed), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
-    routes += generate_admin_routes('event')
+    routes += admin_routes(Event)
     logging.debug(routes)
     application = webapp.WSGIApplication(routes, debug=True)
     wsgiref.handlers.CGIHandler().run(application)

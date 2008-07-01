@@ -2,19 +2,19 @@
 {% block content %}
 <div id="admin_content">
   
-  <h2>Gestion des événements</h2>
-  <fieldset id="event_form">
+  <h2>Gestion des {{ model.verbose_name_plural }}</h2>
+  <fieldset>
     <legend>
     {% ifequal operation "update" %}
-    Éditer un événement :
+    Éditer un {{ model.verbose_name }} :
     {% else %}
-    Ajouter un événement :
+    Ajouter un {{ model.verbose_name }} :
     {% endifequal %}
     </legend>
     {% ifequal operation "update" %}
-    <form method="post" action="/admin/events/{{id}}/update">
+    <form method="post" action="/admin/{{ model.code_name_plural }}/{{id}}/update">
     {% else %}
-    <form method="post" action="/admin/events/create">
+    <form method="post" action="/admin/{{ model.code_name_plural }}/create">
     {% endifequal %}
       <table>
       {{ form }}
