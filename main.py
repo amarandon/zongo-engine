@@ -18,16 +18,60 @@ from google.appengine.ext.db import djangoforms
 
 DATE_FORMAT = '%d/%m/%Y'
 
-class Event(db.Model):
+
+class ZongoModel(db.Model):
+
+    created_at = db.DateTimeProperty(auto_now_add=True)
+    updated_at = db.DateTimeProperty(auto_now=True)
+    atom_id = db.StringProperty()
+    live = db.BooleanProperty(default=False, verbose_name="Publier")
+
+    def __init__(self, parent=None, key_name=None, **kw):
+        db.Model.__init__(self, parent=parent, key_name=key_name, **kw)
+        self.atom_id = self.build_atom_id()
+
+    @classmethod
+    def get_ordered_list(cls):
+        return cls.gql("ORDER BY updated_at DESC")
+
+    @property
+    def id(self):
+        return self.key().id()
+
+    def build_atom_id(self):
+        return "tag:%(domain_name)s,%(date)s:/%(collection_name)s/%(datetime)s" % dict(
+                domain_name='zongosound.com',
+                date=self.created_at.strftime("%Y-%m-%d"),
+                datetime=self.created_at.strftime("%Y%m%d%H%M%S"),
+                collection_name=self.code_name_plural
+                )
+
+
+
+
+class Track(ZongoModel):
+    title = db.StringProperty(default=" ", 
+            verbose_name='Titre')
+    description = db.TextProperty(default=" ")
+
+    verbose_name = 'morceau'
+    verbose_name_plural = 'morceaux'
+
+    code_name = 'track'
+    code_name_plural = 'tracks'
+
+    visible_properties = ('title', 'description', 'live')
+
+    def __init__(self, parent=None, key_name=None, **kw):
+        ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
+
+
+class Event(ZongoModel):
     date = db.DateTimeProperty(required=True)
     location = db.StringProperty(required=True, verbose_name='Lieu')
     title = db.StringProperty(default=" ", 
             verbose_name='Intitulé (optionnel)')
     description = db.TextProperty(default=" ")
-    live = db.BooleanProperty(default=False, verbose_name="Publier")
-    created_at = db.DateTimeProperty(auto_now_add=True)
-    updated_at = db.DateTimeProperty(auto_now=True)
-    atom_id = db.StringProperty()
 
     verbose_name = 'événement'
     verbose_name_plural = 'événements'
@@ -38,8 +82,7 @@ class Event(db.Model):
     visible_properties = ('date', 'location', 'title', 'description', 'live')
 
     def __init__(self, parent=None, key_name=None, **kw):
-        db.Model.__init__(self, parent=parent, key_name=key_name, **kw)
-        self.atom_id = self.build_atom_id()
+        ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
 
     @property
     def formatted_date(self):
@@ -47,9 +90,12 @@ class Event(db.Model):
 
     @property
     def formatted_description(self):
-        paragraphs = ["<p>%s</p>" % p for p in 
-                self.description.split('\r\n\r\n')]
+        paragraphs = ["<p>%s</p>" % p for p in self.description_paragraphs] 
         return ''.join(paragraphs)
+
+    @property
+    def description_paragraphs(self):
+        return self.description.split('\r\n\r\n')
 
     @property
     def short_description(self):
@@ -63,25 +109,18 @@ class Event(db.Model):
     def url(self):
         return self.date.strftime("%Y/%m/%d") + '/' + str(self.id)
 
-    @property
-    def id(self):
-        return self.key().id()
-
-    def build_atom_id(self):
-        return "tag:%(domain_name)s,%(date)s:/events/%(datetime)s" % dict(
-                domain_name='zongosound.com',
-                date=self.created_at.strftime("%Y-%m-%d"),
-                datetime=self.created_at.strftime("%Y%m%d%H%M%S")
-                )
-
     def atom_updated_at(self):
         rfc3339date = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S%z")
         return rfc3339date
 
 
     @classmethod
-    def get_reversed_list(cls):
+    def get_ordered_list(cls):
         return cls.gql("ORDER BY updated_at DESC")
+
+    @classmethod
+    def get_reversed_list(cls):
+        return cls.gql("ORDER BY date DESC")
 
         
 
@@ -105,7 +144,7 @@ class AdminListHandler(RequestHandler):
         property_labels = [properties[name].verbose_name or name.capitalize() 
                                 for name
                                 in self.model.visible_properties]
-        entities = self.model.get_reversed_list()
+        entities = self.model.get_ordered_list()
 
         entity_lists = []
         for entity in entities:
@@ -224,6 +263,7 @@ def main():
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
     routes += admin_routes(Event)
+    routes += admin_routes(Track)
     logging.debug(routes)
     application = webapp.WSGIApplication(routes, debug=True)
     wsgiref.handlers.CGIHandler().run(application)
