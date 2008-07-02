@@ -110,7 +110,7 @@ class AdminListHandler(RequestHandler):
 class AdminNewHandler(RequestHandler):
 
     def get(self):
-        self.render_to_response('admin/%ss_form.html' % self.name, 
+        self.render_to_response('admin/entity_form.html', 
                 form=self.form(), model=self.model, operation='create')
 
     def post(self):
@@ -120,7 +120,7 @@ class AdminNewHandler(RequestHandler):
             entity.put()
             self.redirect("/admin/%ss" % self.name)
         else:
-            self.render_to_response('admin/%ss_form.html' % self.name, form=data, model=self.model, 
+            self.render_to_response('admin/entity_form.html', form=data, model=self.model, 
                     operation='create')
 
 
@@ -128,7 +128,7 @@ class AdminEditHandler(RequestHandler):
 
     def get(self, id):
         entity = self.model.get_by_id(int(id))
-        self.render_to_response('admin/%ss_form.html' % self.name, 
+        self.render_to_response('admin/entity_form.html', 
                 form=self.form(instance=entity), model=self.model, operation='update', id=id)
 
     def post(self, id):
@@ -140,7 +140,7 @@ class AdminEditHandler(RequestHandler):
             entity.put()
             self.redirect("/admin/%ss" % self.name)
         else:
-            self.render_to_response('admin/%ss_form.html' % self.name, form=data, model=self.model,
+            self.render_to_response('admin/entity_form.html', form=data, model=self.model,
                     operation='update', id=id)
 
 
