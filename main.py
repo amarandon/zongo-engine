@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+from UserList import UserList
 from datetime import datetime
 import locale
 import cgi
@@ -45,8 +46,10 @@ class Event(db.Model):
         return self.date.strftime(DATE_FORMAT)
 
     @property
-    def description_paragraphs(self):
-        return self.description.split('\r\n\r\n')
+    def formatted_description(self):
+        paragraphs = ["<p>%s</p>" % p for p in 
+                self.description.split('\r\n\r\n')]
+        return ''.join(paragraphs)
 
     @property
     def short_description(self):
@@ -78,7 +81,7 @@ class Event(db.Model):
 
     @classmethod
     def get_reversed_list(cls):
-        return cls.gql("ORDER BY date DESC")
+        return cls.gql("ORDER BY updated_at DESC")
 
         
 
@@ -102,8 +105,23 @@ class AdminListHandler(RequestHandler):
         property_labels = [properties[name].verbose_name or name.capitalize() 
                                 for name
                                 in self.model.visible_properties]
-        self.render_to_response('admin/%ss_list.html' % self.name, 
-                    entities=self.model.get_reversed_list(),
+        entities = self.model.get_reversed_list()
+
+        entity_lists = []
+        for entity in entities:
+            entity_values = UserList()
+            for property_name in self.model.visible_properties:
+                if hasattr(entity, 'formatted_' + property_name):
+                    entity_values.append(getattr(entity,  'formatted_' +
+                        property_name))
+                else:
+                    entity_values.append(getattr(entity, property_name))
+            entity_values.id = entity.id
+            entity_lists.append(entity_values)
+
+        self.render_to_response('admin/entity_list.html',
+                    model=self.model,
+                    entities=entity_lists,
                     property_labels=property_labels)
 
 

@@ -1,0 +1,38 @@
+{% extends "../layout.html" %}
+{% block content %}
+<div style="margin:30px">
+  <h2>Liste des {{ model.verbose_name_plural }}</h2>
+
+  <p>
+  <a href="/admin/{{ model.code_name_plural }}/new">
+    Ajouter un nouvel {{ model.verbose_name }}
+  </a>
+  </p>
+
+  <table id="entities">
+    <thead>
+      <tr>
+        {% for label in property_labels %}
+        <th>{{ label }}</th>
+        {% endfor %}
+        <th>Actions</th>
+      </tr> 
+    </thead>
+    <tbody>
+      {% for entity in entities %}
+      <tr class="{% cycle entityodd,entityeven %}">
+        {% for value in entity %}
+        <td>
+          {{ value }}
+        </td>
+        {% endfor %}
+        <td>
+          <a href="/admin/{{ model.code_name_plural }}/{{entity.id}}/edit">Editer</a>
+          <a href="/admin/{{ model.code_name_plural }}/{{entity.id}}/delete">Supprimer</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

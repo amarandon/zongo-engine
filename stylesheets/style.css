@@ -78,31 +78,31 @@ p.event-location {
   margin: 2em;
 }
 
-table#events {
+table#entities {
   font-size: 12px;
   border-spacing: 0;
   border-collapse: collapse;
   text-align: left;
 }
 
-table#events th {
+table#entities th {
   padding-bottom: 1em;
   padding-right: 1em;
   text-align: center;
 }
 
-table#events tr.eventodd {
+table#entities tr.entityodd {
   background: #3A8A2A;
 }
 
-table#events td {
+table#entities td {
   border: 1px dotted #F9DA00;
   border-top: 1px dotted #F9DA00;
   padding: 1em;
   vertical-align: top;
 }
 
-table#events td p {
+table#entities td p {
   margin-top: 0;
 }
 
