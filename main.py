@@ -227,9 +227,14 @@ class TestPage(webapp.RequestHandler):
 
 class EventsFeed(RequestHandler):
     def get(self):
+        event_list = Event.get_reversed_list()
+        updated_at_list = [event.updated_at for event in event_list]
+        latest_updated_at = max(updated_at_list)
         self.render_to_response('atom.xml', 
-                events=Event.get_reversed_list(),
-                host_url=self.request.host_url)
+                events=event_list,
+                host_url=self.request.host_url,
+                updated_at=latest_updated_at
+                )
 
 def admin_routes(Model):
     map = { 
@@ -249,7 +254,7 @@ def admin_routes(Model):
             exclude = ['atom_id']
 
     routes = [(prefix + path, type(action + name + 'Handler',
-                                   (eval('Admin' + action + 'Handler'),), 
+                                   (globals()['Admin' + action + 'Handler'],), 
                                    dict(model=Model, name=name, form=Form)))
                         for path, action in map.items()]
     return routes
