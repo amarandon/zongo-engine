@@ -22,8 +22,7 @@ for k in [k for k in sys.modules if k.startswith('django')]:
 
 # Force sys.path to have our own directory first, in case we want to import
 # from it.
-sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), 
-                                'django'))
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
 # Must set this env var *before* importing any part of Django
@@ -83,8 +82,7 @@ class Track(ZongoModel):
     code_name = 'track'
     code_name_plural = 'tracks'
 
-    visible_properties = ('title', 'description', 'live',
-                         'sound_file')
+    visible_properties = ('title', 'description', 'live')
 
     def __init__(self, parent=None, key_name=None, **kw):
         ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
