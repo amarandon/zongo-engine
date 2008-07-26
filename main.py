@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import os, sys
+
 from UserList import UserList
 from datetime import datetime
 import locale
@@ -9,12 +11,28 @@ from datetime import datetime
 import wsgiref.handlers
 import logging
 
-from google.appengine.api import users
+from google.appengine.ext.webapp import util
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
+from google.appengine.api import users
 from google.appengine.ext import db
 
+# Remove the standard version of Django.
+for k in [k for k in sys.modules if k.startswith('django')]:
+  del sys.modules[k]
+
+# Force sys.path to have our own directory first, in case we want to import
+# from it.
+sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), 
+                                'django'))
+
+
+# Must set this env var *before* importing any part of Django
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+
+from django.template.loader import render_to_string
 from google.appengine.ext.db import djangoforms
+
+
 
 DATE_FORMAT = '%d/%m/%Y'
 
@@ -46,6 +64,10 @@ class ZongoModel(db.Model):
                 collection_name=self.code_name_plural
                 )
 
+    @property
+    def formatted_live(self):
+        return 'Oui' if self.live is True else 'Non'
+
 
 
 
@@ -53,6 +75,7 @@ class Track(ZongoModel):
     title = db.StringProperty(default=" ", 
             verbose_name='Titre')
     description = db.TextProperty(default=" ")
+    sound_file = db.BlobProperty()
 
     verbose_name = 'morceau'
     verbose_name_plural = 'morceaux'
@@ -60,7 +83,8 @@ class Track(ZongoModel):
     code_name = 'track'
     code_name_plural = 'tracks'
 
-    visible_properties = ('title', 'description', 'live')
+    visible_properties = ('title', 'description', 'live',
+                         'sound_file')
 
     def __init__(self, parent=None, key_name=None, **kw):
         ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
@@ -102,10 +126,6 @@ class Event(ZongoModel):
         return ' '.join(self.description.split()[:100]) + ' (...)'
 
     @property
-    def formatted_live(self):
-        return 'Oui' if self.live is True else 'Non'
-
-    @property
     def url(self):
         return self.date.strftime("%Y/%m/%d") + '/' + str(self.id)
 
@@ -133,7 +153,7 @@ class AdminPage(webapp.RequestHandler):
 class RequestHandler(webapp.RequestHandler):
 
     def render_to_response(self, template_filename, **kw):
-        output = template.render('templates/' + template_filename, kw)
+        output = render_to_string(template_filename, kw)
         self.response.out.write(output)
 
 
@@ -174,6 +194,10 @@ class AdminNewHandler(RequestHandler):
         data = self.form(data=self.request.POST)
         if data.is_valid():
             entity = data.save(commit=False)
+            for name, prop in self.model.properties().items():
+                if isinstance(prop, db.BlobProperty):
+                    if hasattr(self.request.POST[name], 'value'):
+                        setattr(entity, name, self.request.POST[name].value)
             entity.put()
             self.redirect("/admin/%ss" % self.name)
         else:
@@ -194,6 +218,10 @@ class AdminEditHandler(RequestHandler):
         data = self.form(data=self.request.POST, instance=entity)
         if data.is_valid():
             entity = data.save(commit=False)
+            for name, prop in self.model.properties().items():
+                if isinstance(prop, db.BlobProperty):
+                    if hasattr(self.request.POST[name], 'value'):
+                        setattr(entity, name, self.request.POST[name].value)
             entity.put()
             self.redirect("/admin/%ss" % self.name)
         else:
@@ -271,7 +299,7 @@ def main():
     routes += admin_routes(Track)
     logging.debug(routes)
     application = webapp.WSGIApplication(routes, debug=True)
-    wsgiref.handlers.CGIHandler().run(application)
+    util.run_wsgi_app(application)
 
 
 if __name__ == "__main__":

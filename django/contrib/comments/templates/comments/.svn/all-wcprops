@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/7294/django/trunk/django/contrib/comments/templates/comments
+END
+form.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/7294/django/trunk/django/contrib/comments/templates/comments/form.html
+END
+freeform.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/7294/django/trunk/django/contrib/comments/templates/comments/freeform.html
+END

@@ -1,4 +1,4 @@
-{% extends "../layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
 <div id="admin_content">
   
@@ -12,9 +12,10 @@
     {% endifequal %}
     </legend>
     {% ifequal operation "update" %}
-    <form method="post" action="/admin/{{ model.code_name_plural }}/{{id}}/update">
+    <form method="post" action="/admin/{{ model.code_name_plural }}/{{id}}/update" enctype="multipart/form-data">
     {% else %}
-    <form method="post" action="/admin/{{ model.code_name_plural }}/create">
+    <form method="post" action="/admin/{{ model.code_name_plural }}/create" 
+          enctype="multipart/form-data">
     {% endifequal %}
       <table>
       {{ form }}

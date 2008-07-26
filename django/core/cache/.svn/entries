@@ -1,0 +1,44 @@
+8
+
+dir
+8090
+http://code.djangoproject.com/svn/django/trunk/django/core/cache
+http://code.djangoproject.com/svn
+
+
+
+2008-07-26T05:27:59.100871Z
+8090
+mtredinnick
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+bcc190cf-cafb-0310-a4f2-bffc1f526a37
+
+__init__.py
+file
+
+
+
+
+2008-07-26T11:29:34.000000Z
+79c710b57519807b32ac0afca7fad8e4
+2008-07-25T18:51:32.541561Z
+8075
+mtredinnick
+has-props
+
+backends
+dir
+
