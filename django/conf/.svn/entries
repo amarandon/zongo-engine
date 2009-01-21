@@ -1,66 +1,0 @@
-8
-
-dir
-8090
-http://code.djangoproject.com/svn/django/trunk/django/conf
-http://code.djangoproject.com/svn
-
-
-
-2008-07-26T03:05:40.271482Z
-8080
-mtredinnick
-has-props
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-bcc190cf-cafb-0310-a4f2-bffc1f526a37
-
-locale
-dir
-
-project_template
-dir
-
-urls
-dir
-
-__init__.py
-file
-
-
-
-
-2008-07-26T11:29:33.000000Z
-e949b92e7bb3b210c629d59c96503676
-2008-07-06T12:55:24.320934Z
-7848
-mtredinnick
-has-props
-
-global_settings.py
-file
-
-
-
-
-2008-07-26T11:29:33.000000Z
-ce371037f782b51597ccc759eb604251
-2008-07-21T07:57:10.160510Z
-8015
-mtredinnick
-has-props
-
-app_template
-dir
-

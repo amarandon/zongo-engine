@@ -1,92 +1,0 @@
-8
-
-dir
-8090
-http://code.djangoproject.com/svn/django/trunk/django
-http://code.djangoproject.com/svn
-
-
-
-2008-07-26T05:27:59.100871Z
-8090
-mtredinnick
-has-props
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-bcc190cf-cafb-0310-a4f2-bffc1f526a37
-
-http
-dir
-
-test
-dir
-
-conf
-dir
-
-db
-dir
-
-oldforms
-dir
-
-forms
-dir
-
-__init__.py
-file
-
-
-
-
-2008-07-26T11:29:41.000000Z
-59ccb55d7e1a030a2ee34544f1c02916
-2008-07-22T01:15:43.510816Z
-8035
-jacob
-has-props
-
-core
-dir
-
-templatetags
-dir
-
-views
-dir
-
-shortcuts
-dir
-
-dispatch
-dir
-
-utils
-dir
-
-contrib
-dir
-
-newforms
-dir
-
-bin
-dir
-
-template
-dir
-
-middleware
-dir
-
