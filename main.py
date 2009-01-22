@@ -88,7 +88,7 @@ class Track(ZongoModel):
         ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
 
 MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
-        'Juillet', 'Août', 'Septembre', 'Octobre']
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
 JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi',
         'Dimanche']
 

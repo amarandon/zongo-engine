@@ -10,14 +10,16 @@
   {% for event in events %}
   <entry>
     <title>{{ event.title }}</title>
-    <link href="{{host_url}}/events/{{event.url}}"/>
+    {% comment %}
+    <link href="{{host_url}}/events/{{event.url}}"/> 
+    {% endcomment %}
+    <link href="{{host_url}}"/> 
     <id>{{event.atom_id}}</id>
     <updated>{{event.atom_updated_at}}</updated>
-    <summary>
+    <summary type="html">
       <![CDATA[
       {{event.formatted_date}} -
       {{event.location}} -
-      {{event.title}} -
       {{event.short_description}}
       ]]>
     </summary>

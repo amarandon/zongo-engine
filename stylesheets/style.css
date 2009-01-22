@@ -44,7 +44,7 @@ h1 {
   color: black;
 }
 
-#event-entry {
+.event-entry {
   border-bottom: 1px dotted #F9DA00;
   margin-bottom: 1em;
 }
@@ -72,9 +72,18 @@ p.event-description {
 }
 
 p.event-location {
-  color: #F9DA00;
+  color: black;
+  font-size: large;
   font-family: monospace;
   font-weight: bold;
+}
+
+p.event-location a {
+  color: black;
+}
+
+p.event-location a:hover {
+  background-color: #F9DA00;
 }
 
 /* Admin */
