@@ -17,14 +17,20 @@ body {
 
 #playlist {
   float: left;
-  margin: auto;
   width: 150px;
-  padding-left: 20px;
+  padding-left: 1%;
 }
 
 #content {
   float: left;
-  width: 50%;
+  width: 600px;
+}
+
+#friends {
+  width: 250px;
+  float: left;
+  list-style: none;
+  padding-left: 2em;
 }
 
 #page-footer {
@@ -44,8 +50,7 @@ h1 {
 }
 
 h3.event-title {
-  float: right;
-  color: black;
+  color: #F9DA00;
   font-size: large;
   font-weight: bold;
 }
@@ -56,7 +61,6 @@ th {
 }
 
 p.event-date {
-  float: left;
   color: #F9DA00;
   font-family: monospace;
   font-size: x-large;
@@ -68,8 +72,8 @@ p.event-description {
 }
 
 p.event-location {
+  color: #F9DA00;
   font-family: monospace;
-  color: black;
   font-weight: bold;
 }
 

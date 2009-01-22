@@ -87,6 +87,10 @@ class Track(ZongoModel):
     def __init__(self, parent=None, key_name=None, **kw):
         ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
 
+MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
+        'Juillet', 'Août', 'Septembre', 'Octobre']
+JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi',
+        'Dimanche']
 
 class Event(ZongoModel):
     date = db.DateTimeProperty(required=True)
@@ -108,7 +112,12 @@ class Event(ZongoModel):
 
     @property
     def formatted_date(self):
-        return self.date.strftime(DATE_FORMAT)
+        day = self.date.day
+        if day == 1:
+            day = '1er'
+        month = MOIS[int(self.date.month) - 1]
+        weekday = JOURS[self.date.weekday()]
+        return "%s %s %s %s" % (weekday, day, month, self.date.year)
 
     @property
     def formatted_description(self):
