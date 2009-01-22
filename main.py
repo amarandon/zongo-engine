@@ -4,9 +4,7 @@
 import os, sys
 
 from UserList import UserList
-from datetime import datetime
 import locale
-import cgi
 from datetime import datetime
 import wsgiref.handlers
 import logging
@@ -249,7 +247,9 @@ class IndexPage(RequestHandler):
 
     def get(self):
         self.render_to_response('index.html', 
-                events=Event.get_reversed_list())
+                events=Event.get_reversed_list(),
+                year=datetime.today().year
+                )
 
 
 class TestPage(webapp.RequestHandler):

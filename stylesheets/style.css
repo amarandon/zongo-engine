@@ -23,21 +23,27 @@ body {
 
 #content {
   float: left;
-  width: 600px;
+  max-width: 60%;
 }
 
 #friends {
   width: 250px;
   float: left;
-  list-style: none;
   padding-left: 2em;
+}
+
+#friends ul {
+  padding-left: 0;
+}
+#friends li {
+  list-style: none;
 }
 
 #page-footer {
   clear: both;
   margin: 1em;
+  padding-left: 150px;
   font-size: smaller;
-  text-align: center;
 }
 
 h1 {
