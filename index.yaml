@@ -10,13 +10,13 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 62 times in query history.
+# Used once in query history.
 - kind: Event
   properties:
   - name: date
     direction: desc
 
-# Used 9 times in query history.
+# Unused in query history -- copied from input.
 - kind: Event
   properties:
   - name: updated_at
