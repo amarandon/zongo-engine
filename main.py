@@ -8,6 +8,8 @@ import locale
 from datetime import datetime
 import wsgiref.handlers
 import logging
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
 
 from google.appengine.ext.webapp import util
 from google.appengine.ext import webapp
@@ -33,6 +35,14 @@ from google.appengine.ext.db import djangoforms
 
 DATE_FORMAT = '%d/%m/%Y'
 
+class classproperty(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, instance, owner):
+        return self.func(owner)
+
+
 
 class ZongoModel(db.Model):
 
@@ -45,9 +55,21 @@ class ZongoModel(db.Model):
         db.Model.__init__(self, parent=parent, key_name=key_name, **kw)
         self.atom_id = self.build_atom_id()
 
+    @classproperty
+    def admin_url(cls):
+        name = cls.__name__.lower()
+        url = '/admin/%ss' % name
+        return url
+
+
     @classmethod
     def get_ordered_list(cls):
-        return cls.gql("ORDER BY updated_at DESC")
+        if hasattr(cls, 'position'):
+            order_criteria = 'position' 
+        else:
+            order_criteria = 'updated_at DESC'
+        log.debug(order_criteria)
+        return cls.gql("ORDER BY " + order_criteria)
 
     @property
     def id(self):
@@ -66,13 +88,26 @@ class ZongoModel(db.Model):
         return 'Oui' if self.live is True else 'Non'
 
 
-
-
-class Track(ZongoModel):
+class Link(ZongoModel):
     title = db.StringProperty(default=" ", 
             verbose_name='Titre')
-    description = db.TextProperty(default=" ")
-    sound_file = db.BlobProperty()
+    url = db.StringProperty(required=True)
+
+    verbose_name = 'lien'
+    verbose_name_plural = 'liens'
+
+    code_name = 'link'
+    code_name_plural = 'links'
+
+    position = db.IntegerProperty(default=0)
+
+    visible_properties = ('position', 'title', 'url', 'live')
+
+    def __init__(self, parent=None, key_name=None, **kw):
+        ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
+
+
+class Track(Link):
 
     verbose_name = 'morceau'
     verbose_name_plural = 'morceaux'
@@ -80,10 +115,8 @@ class Track(ZongoModel):
     code_name = 'track'
     code_name_plural = 'tracks'
 
-    visible_properties = ('title', 'description', 'live')
-
     def __init__(self, parent=None, key_name=None, **kw):
-        ZongoModel.__init__(self, parent=parent, key_name=key_name, **kw)
+        Link.__init__(self, parent=parent, key_name=key_name, **kw)
 
 MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
         'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
@@ -140,19 +173,11 @@ class Event(ZongoModel):
 
 
     @classmethod
-    def get_ordered_list(cls):
-        return cls.gql("ORDER BY updated_at DESC")
-
-    @classmethod
     def get_reversed_list(cls):
         return cls.gql("ORDER BY date DESC")
 
         
 
-class AdminPage(webapp.RequestHandler):
-
-    def get(self):
-        self.redirect("/admin/events")
 
 
 class RequestHandler(webapp.RequestHandler):
@@ -161,6 +186,10 @@ class RequestHandler(webapp.RequestHandler):
         output = render_to_string(template_filename, kw)
         self.response.out.write(output)
 
+class AdminPage(RequestHandler):
+
+    def get(self):
+        self.render_to_response("admin/index.html", models=self.models)
 
 class AdminListHandler(RequestHandler):
 
@@ -248,6 +277,8 @@ class IndexPage(RequestHandler):
     def get(self):
         self.render_to_response('index.html', 
                 events=Event.get_reversed_list(),
+                links=Link.get_ordered_list(),
+                tracks=Track.get_ordered_list(),
                 year=datetime.today().year
                 )
 
@@ -281,7 +312,7 @@ def admin_routes(Model):
             '/(\d+)/delete': 'Delete'
             }
     name = Model.__name__.lower()
-    prefix = '/admin/%ss' % name
+    prefix = Model.admin_url
 
     class Form(djangoforms.ModelForm):
         class Meta:
@@ -297,14 +328,14 @@ def admin_routes(Model):
 
 
 def main():
-    logging.getLogger().setLevel(logging.DEBUG)
+    models = (Event, Track, Link)
+    AdminPage.models = models
     routes = [ ('/', IndexPage), 
                ('/events/atom', EventsFeed), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
-    routes += admin_routes(Event)
-    routes += admin_routes(Track)
-    logging.debug(routes)
+    for model in models:
+        routes += admin_routes(model)
     application = webapp.WSGIApplication(routes, debug=True)
     util.run_wsgi_app(application)
 

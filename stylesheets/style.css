@@ -15,21 +15,17 @@ body {
     margin-bottom: 2em;
 }
 
-#playlist {
+#left {
   float: left;
   width: 200px;
-  padding-left: 1%;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 #content {
   float: left;
   max-width: 60%;
-}
-
-#friends {
-  width: 250px;
-  float: left;
-  padding-left: 2em;
+  padding-left: 1%;
 }
 
 ul {
@@ -43,7 +39,7 @@ li {
 #page-footer {
   clear: both;
   margin: 1em;
-  padding-left: 200px;
+  padding-left: 260px;
   font-size: smaller;
 }
 

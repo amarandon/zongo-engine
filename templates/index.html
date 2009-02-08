@@ -1,58 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div id="playlist">
-  <h2>Son</h2>
-  <ul>
-    <li>
-    <a href="http://freedownloads.last.fm/download/197595174/Cause%2BToo%2BMuch%2BWar.mp3">Cause Too Much War</a>
-    </li>
-    <li>
-    <a href="http://freedownloads.last.fm/download/265597970/Soul%2BDub.mp3">Soul Dub</a>
-    </li>
-    <li>
-    <a href="http://freedownloads.last.fm/download/265597971/Dub%2BParty%2BDub.mp3">Dub Party Dub</a>
-    </li>
-  </ul>
+<div id="left">
+  <div id="playlist">
+    <h2>Son</h2>
+    <ul>
+      {% for track in tracks %}
+      <li>
+      <a href="{{track.url}}">{{track.title}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div id="friends">
+    <h2>Liens</h2>
+    <ul>
+      {% for link in links %}
+      <li>
+      <a href="{{link.url}}">{{link.title}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 
-  <div id="content">
-      <h2>Soirées / Dances</h2>
-      {% for event in events %}
-      <div class="event-entry">
-        <p class="event-date">
-        {{ event.formatted_date }}
-        </p>
-        <p class="event-location">
-        {{ event.location }}
-        </p>
-        {% for p in event.description_paragraphs %}
-        <p  class="event-description">
-        {{ p }}
-        </p>
-        {% endfor %}
-      </div>
-      {% endfor %}
-    </div>
-
-  <div id="friends">
-      <h2>Liens</h2>
-      <ul>
-      <li>
-        <a href="http://www.last.fm/music/Zongo+Sound">Zongo Sound
-          sur last.fm</a>
-      </li>
-      <li>
-      <a href="http://www.myspace.com/witchinghourdubsection  ">Witching Hour Dub Section</a>
-      </li>
-      <li>
-      <a href="http://www.myspace.com/istationsoundsystem">I-Station</a>
-      </li>
-      <li>
-      <a href="http://www.myspace.com/ackboo">Ackboo</a>
-      </li>
-      </ul>
+<div id="content">
+  <h2>Soirées / Dances</h2>
+  {% for event in events %}
+  <div class="event-entry">
+    <p class="event-date">
+    {{ event.formatted_date }}
+    </p>
+    <p class="event-location">
+    {{ event.location }}
+    </p>
+    {% for p in event.description_paragraphs %}
+    <p  class="event-description">
+    {{ p }}
+    </p>
+    {% endfor %}
   </div>
+  {% endfor %}
+</div>
 
-
-    {% endblock %}
+{% endblock %}
