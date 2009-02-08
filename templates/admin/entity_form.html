@@ -19,6 +19,14 @@
     {% endifequal %}
       <table>
       {{ form }}
+      {% ifequal model.code_name 'event' %}
+      <tr>
+        <th></th>
+        <td>
+          <input type="file" name="image"/>
+        </td>
+      </tr>
+      {% endifequal %}
       <tr>
         <th></th>
         <td>

@@ -39,6 +39,12 @@
     {{ p }}
     </p>
     {% endfor %}
+    {% if event.image %}
+    <p  class="event-image">
+    <img src="/events/images/{{ event.id }}" alt="Flyer"/>
+    </p>
+    {% endif %}
+    <p class="clear"></p>
   </div>
   {% endfor %}
 </div>

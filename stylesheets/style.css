@@ -71,6 +71,10 @@ p.event-date {
 }
 
 p.event-description {
+  float: left;
+}
+
+.clear {
   clear: both;
 }
 

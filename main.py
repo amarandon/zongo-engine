@@ -129,6 +129,7 @@ class Event(ZongoModel):
     title = db.StringProperty(default=" ", 
             verbose_name='Intitulé (optionnel)')
     description = db.TextProperty(default=" ")
+    image = db.BlobProperty()
 
     verbose_name = 'événement'
     verbose_name_plural = 'événements'
@@ -290,6 +291,15 @@ class TestPage(webapp.RequestHandler):
         s = d.strftime('%A %d %B %Y')
         self.response.out.write(s)
 
+class EventImage(RequestHandler):
+    def get(self, id):
+        event = Event.get_by_id(int(id))
+        if event.image:
+            self.response.headers['Content-Type'] = "image/jpg"
+            self.response.out.write(event.image)
+        else:
+            self.error(404)
+
 
 class EventsFeed(RequestHandler):
     def get(self):
@@ -332,6 +342,7 @@ def main():
     AdminPage.models = models
     routes = [ ('/', IndexPage), 
                ('/events/atom', EventsFeed), 
+               ('/events/images/(\d+)', EventImage), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
     for model in models:
