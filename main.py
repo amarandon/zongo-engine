@@ -11,10 +11,12 @@ import logging
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
+from google.appengine.api import users
+from google.appengine.api import images
 from google.appengine.ext.webapp import util
 from google.appengine.ext import webapp
-from google.appengine.api import users
 from google.appengine.ext import db
+
 
 # Remove the standard version of Django.
 for k in [k for k in sys.modules if k.startswith('django')]:
@@ -130,6 +132,7 @@ class Event(ZongoModel):
             verbose_name='Intitulé (optionnel)')
     description = db.TextProperty(default=" ")
     image = db.BlobProperty()
+    small_image = db.BlobProperty()
 
     verbose_name = 'événement'
     verbose_name_plural = 'événements'
@@ -231,7 +234,7 @@ class AdminNewHandler(RequestHandler):
             entity = data.save(commit=False)
             for name, prop in self.model.properties().items():
                 if isinstance(prop, db.BlobProperty):
-                    if hasattr(self.request.POST[name], 'value'):
+                    if hasattr(self.request.POST.get(name), 'value'):
                         setattr(entity, name, self.request.POST[name].value)
             entity.put()
             self.redirect("/admin/%ss" % self.name)
@@ -255,7 +258,7 @@ class AdminEditHandler(RequestHandler):
             entity = data.save(commit=False)
             for name, prop in self.model.properties().items():
                 if isinstance(prop, db.BlobProperty):
-                    if hasattr(self.request.POST[name], 'value'):
+                    if hasattr(self.request.POST.get(name), 'value'):
                         setattr(entity, name, self.request.POST[name].value)
             entity.put()
             self.redirect("/admin/%ss" % self.name)
@@ -297,6 +300,29 @@ class EventImage(RequestHandler):
         if event.image:
             self.response.headers['Content-Type'] = "image/jpg"
             self.response.out.write(event.image)
+        else:
+            self.error(404)
+
+class EventSmallImage(RequestHandler):
+    def get(self, id):
+        event = Event.get_by_id(int(id))
+        if event.image:
+            if not event.small_image:
+                image = images.Image(event.image)
+                max_size = image.width if image.width > image.height else image.height
+                small_size = 250.0
+                if small_size < max_size:
+                    ratio = small_size / max_size
+                    image.resize(int(image.width * ratio), int(image.height * ratio))
+                    log.info("Creating small event image")
+                    event.small_image = image.execute_transforms()
+                else:
+                    event.small_image = event.image
+                event.put()
+
+
+            self.response.headers['Content-Type'] = "image/jpg"
+            self.response.out.write(event.small_image)
         else:
             self.error(404)
 
@@ -343,6 +369,7 @@ def main():
     routes = [ ('/', IndexPage), 
                ('/events/atom', EventsFeed), 
                ('/events/images/(\d+)', EventImage), 
+               ('/events/small_images/(\d+)', EventSmallImage), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
     for model in models:

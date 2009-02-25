@@ -50,6 +50,7 @@ h1 {
 .event-entry {
   border-bottom: 1px dotted #F9DA00;
   margin-bottom: 1em;
+  position: relative;
 }
 
 h3.event-title {
@@ -71,7 +72,6 @@ p.event-date {
 }
 
 p.event-description {
-  float: left;
 }
 
 .clear {
@@ -83,6 +83,16 @@ p.event-location {
   font-size: large;
   font-family: monospace;
   font-weight: bold;
+}
+
+p.event-image {
+    float: right;
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
+
+img {
+    border: none;
 }
 
 p.event-location a {
@@ -148,4 +158,8 @@ a {
 
 a:hover {
   background: black;
+}
+
+a.img-link:hover {
+  background: transparent;
 }

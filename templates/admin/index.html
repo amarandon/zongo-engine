@@ -1,11 +1,9 @@
-{% extends "layout.html" %}
-{% block content %}
-<div style="margin:30px">
+{% extends "admin/layout.html" %}
+{% block admin_content %}
   <h2>Mise à jour du site</h2>
   <ul>
     {% for model in models %}
     <li><a href="{{ model.admin_url }}">{{ model.verbose_name_plural }}</a></li>
     {% endfor %}
   </ul>
-</div>
-{% endblock %}
+{% endblock admin_content %}
