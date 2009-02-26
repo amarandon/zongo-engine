@@ -302,7 +302,7 @@ class EventImage(RequestHandler):
     def get(self, id):
         event = Event.get_by_id(int(id))
         if event.image:
-            self.response.headers['Content-Type'] = "image/jpg"
+            self.response.headers['Content-Type'] = "image/jpeg"
             self.response.out.write(event.image)
         else:
             self.error(404)
@@ -319,13 +319,13 @@ class EventSmallImage(RequestHandler):
                     ratio = small_size / max_size
                     image.resize(int(image.width * ratio), int(image.height * ratio))
                     log.info("Creating small event image")
-                    event.small_image = image.execute_transforms()
+                    event.small_image = image.execute_transforms(output_encoding=images.JPEG)
                 else:
                     event.small_image = event.image
                 event.put()
 
 
-            self.response.headers['Content-Type'] = "image/jpg"
+            self.response.headers['Content-Type'] = "image/jpeg"
             self.response.out.write(event.small_image)
         else:
             self.error(404)
@@ -375,7 +375,8 @@ def main():
     routes = [ ('/', IndexPage), 
                ('/events/atom', EventsFeed), 
                ('/events/images/(\d+)', EventImage), 
-               ('/events/small_images/(\d+)', EventSmallImage), 
+               ('/events/images/(\d+).jpg', EventImage), 
+               ('/events/small_images/(\d+).jpg', EventSmallImage), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
     for model in models:
