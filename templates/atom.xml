@@ -2,6 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Dates de Zongo Sound</title>
   <link href="{{host_url}}"/>
+  <link rel="self" href="{{host_url}}/events/atom"/>
   <updated>{{updated_at}}</updated>
   <author>
     <name>Zongo Sound</name>

@@ -125,6 +125,10 @@ MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
 JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi',
         'Dimanche']
 
+def rfc3339date(datetime):
+    return datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 class Event(ZongoModel):
     date = db.DateTimeProperty(required=True)
     location = db.StringProperty(required=True, verbose_name='Lieu')
@@ -171,9 +175,9 @@ class Event(ZongoModel):
     def url(self):
         return self.date.strftime("%Y/%m/%d") + '/' + str(self.id)
 
+    @property
     def atom_updated_at(self):
-        rfc3339date = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S%z")
-        return rfc3339date
+        return rfc3339date(self.updated_at)
 
 
     @classmethod
@@ -331,7 +335,9 @@ class EventsFeed(RequestHandler):
     def get(self):
         event_list = Event.get_reversed_list()
         updated_at_list = [event.updated_at for event in event_list]
-        latest_updated_at = max(updated_at_list)
+        latest_updated_at = rfc3339date(max(updated_at_list))
+
+        self.response.headers['Content-Type'] = "application/atom+xml"
         self.render_to_response('atom.xml', 
                 events=event_list,
                 host_url=self.request.host_url,
