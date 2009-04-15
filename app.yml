@@ -9,6 +9,8 @@ api_version: 1
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
+- url: /images
+  static_dir: images
 - url: /admin.*
   script: main.py
   login: admin

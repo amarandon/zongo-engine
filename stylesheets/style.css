@@ -1,3 +1,5 @@
+.clear { clear: both; }
+
 body {
     background: #308A2A; 
     font-family: sans-serif;
@@ -6,13 +8,18 @@ body {
 }
 
 #page-heading {
-    border-top: solid 5px #F9DA00;
-    border-bottom: solid 5px #F9DA00;
-    padding-left: 20px;
+    border-top: solid 3px #FEFF1F;
+    border-bottom: solid 3px #FEFF1F;
     color: white;
     font-weight: bold;
-    margin-top: 1em;
+    margin-top: 0.5em;
     margin-bottom: 2em;
+    padding: 0.3em;
+}
+
+#page-heading-logo {
+    float: left;
+    margin-right: 1em;
 }
 
 #left {
@@ -48,7 +55,7 @@ h1 {
 }
 
 .event-entry {
-  border-bottom: 1px dotted #F9DA00;
+  border-bottom: 1px dotted #FEFF1F;
   padding-bottom: 1em;
   margin-bottom: 1em;
   position: relative;
