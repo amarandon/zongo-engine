@@ -1,0 +1,3 @@
+Running the tests requires packages nose, webtest and nosegae. 
+Edit setup.cfg to pass options to nose, such as the path to the App Engine SDK.
+Tests can be run by typing nosetests from the app top directory.

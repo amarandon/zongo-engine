@@ -368,8 +368,7 @@ def admin_routes(Model):
     return routes
 
 
-
-def main():
+def application():
     models = (Event, Track, Link)
     AdminPage.models = models
     routes = [ ('/', IndexPage), 
@@ -381,8 +380,10 @@ def main():
                ('/tests', TestPage) ]
     for model in models:
         routes += admin_routes(model)
-    application = webapp.WSGIApplication(routes, debug=True)
-    util.run_wsgi_app(application)
+    return webapp.WSGIApplication(routes, debug=True)
+
+def main():
+    util.run_wsgi_app(application())
 
 
 if __name__ == "__main__":
