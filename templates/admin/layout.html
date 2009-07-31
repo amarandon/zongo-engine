@@ -2,7 +2,14 @@
 {% block content %}
 
 <div style="margin:30px">
-  <a href="/">Voir le site</a>
+  <ul id="adminNav">
+    <li>
+    <a href="/admin">Admin</a>
+    </li>
+    <li>
+    <a href="/">Voir le site</a>
+    </li>
+  </ul>
   {% block admin_content %}
   {% endblock admin_content %}
 </div>

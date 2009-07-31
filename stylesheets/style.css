@@ -173,3 +173,8 @@ a:hover {
 a.img-link:hover {
   background: transparent;
 }
+
+#adminNav li {
+  display: inline;
+  margin: 1em;
+}
