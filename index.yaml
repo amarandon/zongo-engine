@@ -16,6 +16,13 @@ indexes:
   - name: date
     direction: desc
 
+# Used once in query history.
+- kind: Event
+  properties:
+  - name: published
+  - name: date
+    direction: desc
+
 # Unused in query history -- copied from input.
 - kind: Event
   properties:
@@ -28,6 +35,12 @@ indexes:
   - name: position
     direction: desc
 
+# Used once in query history.
+- kind: Link
+  properties:
+  - name: published
+  - name: position
+
 # Unused in query history -- copied from input.
 - kind: Link
   properties:
@@ -39,6 +52,12 @@ indexes:
   properties:
   - name: position
     direction: desc
+
+# Used once in query history.
+- kind: Track
+  properties:
+  - name: published
+  - name: position
 
 # Unused in query history -- copied from input.
 - kind: Track

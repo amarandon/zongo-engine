@@ -9,8 +9,8 @@ class IndexPage(RequestHandler):
     def get(self):
         self.render_to_response('index.html', 
                 events=Event.get_reversed_list(),
-                links=Link.get_ordered_list(),
-                tracks=Track.get_ordered_list(),
+                links=Link.get_public_list(),
+                tracks=Track.get_public_list(),
                 year=datetime.today().year
                 )
 

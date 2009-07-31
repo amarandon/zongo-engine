@@ -24,7 +24,7 @@ class Model(db.Model):
     created_at = db.DateTimeProperty(auto_now_add=True)
     updated_at = db.DateTimeProperty(auto_now=True)
     atom_id = db.StringProperty()
-    live = db.BooleanProperty(default=False, verbose_name="Publier")
+    published = db.BooleanProperty(default=False, verbose_name="Publier")
 
     def __init__(self, parent=None, key_name=None, **kw):
         db.Model.__init__(self, parent=parent, key_name=key_name, **kw)
@@ -38,12 +38,16 @@ class Model(db.Model):
 
 
     @classmethod
+    def get_public_list(cls):
+        return cls.get_ordered_list().filter("published =", True)
+
+    @classmethod
     def get_ordered_list(cls):
+        query = db.Query(cls)
         if hasattr(cls, 'position'):
-            order_criteria = 'position' 
+            return query.order('position')
         else:
-            order_criteria = 'updated_at DESC'
-        return cls.gql("ORDER BY " + order_criteria)
+            return query.order('-updated_at')
 
     @property
     def id(self):
@@ -58,8 +62,8 @@ class Model(db.Model):
                 )
 
     @property
-    def formatted_live(self):
-        return 'Oui' if self.live is True else 'Non'
+    def formatted_published(self):
+        return 'Oui' if self.published is True else 'Non'
 
 
 class RequestHandler(webapp.RequestHandler):

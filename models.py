@@ -17,7 +17,7 @@ class Link(Model):
 
     position = db.IntegerProperty(default=0)
 
-    visible_properties = ('position', 'title', 'url', 'live')
+    visible_properties = ('position', 'title', 'url', 'published')
 
     def __init__(self, parent=None, key_name=None, **kw):
         Model.__init__(self, parent=parent, key_name=key_name, **kw)
@@ -56,7 +56,7 @@ class Event(Model):
     code_name = 'event'
     code_name_plural = 'events'
 
-    visible_properties = ('date', 'location', 'title', 'description', 'live')
+    visible_properties = ('date', 'location', 'title', 'description', 'published')
 
     def __init__(self, parent=None, key_name=None, **kw):
         Model.__init__(self, parent=parent, key_name=key_name, **kw)
@@ -94,5 +94,5 @@ class Event(Model):
 
     @classmethod
     def get_reversed_list(cls):
-        return cls.gql("ORDER BY date DESC")
+        return cls.gql("WHERE published = True ORDER BY date DESC")
 

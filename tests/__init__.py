@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 
 from webtest import TestApp
 
@@ -16,6 +17,11 @@ def clear_datastore():
 
 
 class BaseTest(unittest.TestCase):
+
+    @staticmethod
+    def str2date(s):
+        return datetime.strptime(s, "%Y-%m-%d")
+
 
     def setUp(self):
         clear_datastore()
