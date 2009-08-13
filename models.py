@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+from datetime import datetime
 from google.appengine.ext import db
 from base import Model, rfc3339date
 
@@ -41,12 +42,54 @@ JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi',
 
 
 
+class StrDateTimeProperty(db.Property):
+
+    def get_value_for_form(self, instance):
+        """Extract the property value from the instance for use in a form.
+
+            Override this to do a property- or field-specific type conversion.
+
+            Args:
+              instance: a db.Model instance
+
+            Returns:
+              The property's value extracted from the instance, possibly
+              converted to a type suitable for a form field; possibly None.
+
+            By default this returns the instance attribute's value unchanged.
+        """
+        return getattr(instance, self.name).strftime("%d/%m/%Y")
+
+    def make_value_from_form(self, value):
+        """Convert a form value to a property value.
+
+            Override this to do a property- or field-specific type conversion.
+
+            Args:
+              value: the cleaned value retrieved from the form field
+
+            Returns:
+              A value suitable for assignment to a model instance's property;
+              possibly None.
+
+            By default this converts the value to self.data_type if it
+            isn't already an instance of that type, except if the value is
+            empty, in which case we return None.
+        """
+        if value in (None, ''):
+            return None
+        if not isinstance(value, self.data_type):
+            value = datetime.strptime(value, "%d/%m/%Y")
+        return value
+
+
+
 class Event(Model):
-    date = db.DateTimeProperty(required=True)
+    date = StrDateTimeProperty(required=True)
     location = db.StringProperty(required=True, verbose_name='Lieu')
-    title = db.StringProperty(default=" ", 
-            verbose_name='Intitulé (optionnel)')
-    description = db.TextProperty(default=" ")
+    title = db.StringProperty(required=True, 
+            verbose_name='Intitulé (pour le feed Atom)')
+    description = db.TextProperty()
     image = db.BlobProperty()
     small_image = db.BlobProperty()
 

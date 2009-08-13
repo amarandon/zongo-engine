@@ -16,7 +16,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used once in query history.
+# Used 5 times in query history.
 - kind: Event
   properties:
   - name: published
@@ -35,7 +35,7 @@ indexes:
   - name: position
     direction: desc
 
-# Used once in query history.
+# Used 4 times in query history.
 - kind: Link
   properties:
   - name: published
@@ -53,7 +53,7 @@ indexes:
   - name: position
     direction: desc
 
-# Used once in query history.
+# Used 4 times in query history.
 - kind: Track
   properties:
   - name: published
