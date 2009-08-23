@@ -1,3 +1,4 @@
+import os
 import logging
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
@@ -69,5 +70,10 @@ class Model(db.Model):
 class RequestHandler(webapp.RequestHandler):
 
     def render_to_response(self, template_filename, **kw):
+        if 'SERVER_SOFTWARE' in os.environ and \
+                os.environ['SERVER_SOFTWARE'].startswith('Development'):
+            kw['dev_environment'] = True
+        else:
+            kw['dev_environment'] = False
         output = render_to_string(template_filename, kw)
         self.response.out.write(output)

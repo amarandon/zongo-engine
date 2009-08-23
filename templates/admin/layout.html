@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" media="screen" 
+  href="/stylesheets/le-frog/jquery-ui-1.7.2.custom.css" />
+{% endblock extra_css %}
+
 {% block content %}
 
 <div style="margin:30px">
@@ -17,10 +22,31 @@
 
 {% endblock content %}
 
-{% block page_javascript %}
+{% block extra_javascript %}
 
 <script>
-  $('#id_date').datepicker({ dateFormat: 'dd/mm/yy' });
+  function main() {
+    $('#id_date').datepicker({ dateFormat: 'dd/mm/yy' });
+  }
 </script>
 
-{% endblock page_javascript %}
+{% if dev_environment %}
+
+<script src="/scripts/jquery-1.3.2.js"></script>
+<script src="/scripts/jquery-ui-1.7.2.custom.js"></script>
+<script>
+  $(document).ready(main);
+</script>
+
+{% else %}
+
+<script src="http://www.google.com/jsapi"></script>
+<script>
+  google.load("jquery", "1.3.2");
+  google.load("jqueryui", "1.7.2");
+  google.setOnLoadCallback(main);
+</script>
+
+{% endif %}
+
+{% endblock extra_javascript %}
