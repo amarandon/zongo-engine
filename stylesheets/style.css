@@ -1,7 +1,7 @@
 .clear { clear: both; }
 
 body {
-    background: #308A2A; 
+    background: #23435c; 
     font-family: sans-serif;
     color: white;
     margin: 0;
@@ -51,7 +51,7 @@ li {
 }
 
 h1 {
-  color: black;
+  color: #FEFF1F;
 }
 
 .event-entry {
