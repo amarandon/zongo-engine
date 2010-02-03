@@ -12,6 +12,20 @@
       {% endfor %}
     </ul>
   </div>
+  <div id="radio">
+    <h2>Radio</h2>
+    <p>
+    <a href="http://www.myspace.com/lherbedetonvoisin">L'HERBE DE TON VOISIN</a>
+</p>
+<p>
+    1 Mardi sur Deux de 19h à 20h. Reggae, Dub and more. sur <a
+      href="http://www.radio-fmr.net/">FMR</a> 89.1 MHz
+</p>
+  </div>
+  <div id="contact">
+    <h2>Contact</h2>
+    <span class="mystery">mat arobase zongosound point com</span>
+  </div>
   <div id="friends">
     <h2>Liens</h2>
     <ul>
@@ -50,5 +64,21 @@
   </div>
   {% endfor %}
 </div>
+<script type="text/javascript">
+      window.onload=function(){
+        var elems = document.getElementsByClassName('mystery');
+        var txt, i = 0, x = '<a hr', y = 'ilto', z = 'ma';
+        for (; i < elems.length; ++i) {
+          txt = elems[i].innerHTML;
+          txt = txt.replace(/\s+arobase\s+/, '@').replace(/\s+point\s+/, '.');
+          var a = document.createElement('a');
+          a.href = z + y + ':' + txt;
+          a.innerHTML = txt;
+          elems[i].innerHTML = '';
+          elems[i].appendChild(a);
+        }
+      }
+</script>
+
 
 {% endblock %}

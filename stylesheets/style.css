@@ -5,6 +5,8 @@ body {
     font-family: sans-serif;
     color: white;
     margin: 0;
+    font-size: .9em;
+    line-height: 1.6em;
 }
 
 #page-heading {
@@ -15,6 +17,8 @@ body {
     margin-top: 0.5em;
     margin-bottom: 2em;
     padding: 0.3em;
+    -moz-box-shadow: black 0px 5px 20px;
+    -webkit-box-shadow: black 0px 4px 20px;
 }
 
 #page-heading-logo {
@@ -29,14 +33,26 @@ body {
   padding-right: 30px;
 }
 
+#left h2 {
+    margin-bottom: 5px;
+}
+
+#left p {
+    margin: 0px;
+}
+
+#left div {
+    margin-bottom: 2em;
+}
+
 #content {
   float: left;
   max-width: 60%;
-  padding-left: 1%;
 }
 
 ul {
   padding-left: 0;
+  margin: 0;
 }
 
 li {
