@@ -114,13 +114,18 @@ class Event(Model):
         return "%s %s %s %s" % (weekday, day, month, self.date.year)
 
     @property
+    def formatted_location(self):
+        return self.location.replace('&', '&amp;')
+
+    @property
     def formatted_description(self):
         paragraphs = ["<p>%s</p>" % p for p in self.description_paragraphs] 
         return ''.join(paragraphs)
 
     @property
     def description_paragraphs(self):
-        return self.description.split('\r\n\r\n')
+        description = self.description.replace('&', '&amp;')
+        return description.split('\r\n\r\n')
 
     @property
     def short_description(self):

@@ -46,14 +46,12 @@
     {{ event.formatted_date }}
     </p>
     <p class="event-location">
-    {{ event.location }}
+    {{ event.formatted_location }}
     </p>
     {% if event.image %}
-    <p  class="event-image">
-    <a class="img-link" href="/events/images/{{ event.id }}.jpg" title="Flyer {{event.title}} grand format">
-      <img src="/events/small_images/{{ event.id }}.jpg" alt="Flyer {{event.title}} petit format"/>
-    </a>
-    </p>
+    <p class="event-image"><a class="img-link" href="/events/images/{{ event.id }}.jpg" 
+      title="Flyer {{event.title}} grand format"><img src="/events/small_images/{{ event.id }}.jpg" 
+      alt="Flyer {{event.title}} petit format"/>Flyer</a></p>
     {% endif %}
     {% for p in event.description_paragraphs %}
     <p  class="event-description">
@@ -65,6 +63,7 @@
   {% endfor %}
 </div>
 <script type="text/javascript">
+  // <!--
       window.onload=function(){
         var elems = document.getElementsByClassName('mystery');
         var txt, i = 0, x = '<a hr', y = 'ilto', z = 'ma';
@@ -78,6 +77,7 @@
           elems[i].appendChild(a);
         }
       }
+  // -->
 </script>
 
 
