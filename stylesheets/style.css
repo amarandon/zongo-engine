@@ -7,10 +7,10 @@ img {
 
 body {
     background: #23435c; 
-    font-family: sans-serif;
+    font-family: Arial, sans-serif;
     color: white;
     margin: 0;
-    line-height: 1.6em;
+    line-height: 24px;
 }
 
 #page-heading {
@@ -19,46 +19,68 @@ body {
     color: white;
     font-weight: bold;
     margin-top: 0.5em;
-    margin-bottom: 2em;
+    margin-bottom: 48px;
     padding: 0.3em;
+    padding-left: 0;
     -moz-box-shadow: black 0px 3px 10px;
     -webkit-box-shadow: black 0px 1px 8px;
 }
 
+#page-heading p {
+    margin-bottom: 0;
+    text-shadow: black 0px 3px 10px;
+}
+
+h1 {
+  color: #FEFF1F;
+  font-size: 72px;
+  margin-bottom: 36px;
+  text-shadow: black 0px 3px 10px;
+}
+
 #page-heading-logo {
     float: left;
-    margin-right: 1em;
+    margin-left: 93px;
+    margin-right: 93px;
 }
 
 #left {
-  font-size: .9em;
   float: left;
-  width: 200px;
-  padding-left: 30px;
-  padding-right: 30px;
+  width: 216px;
+  margin-left: 48px;
+  margin-right: 72px;
 }
 
-#left h2 {
-    margin-bottom: 5px;
+#left div {
+    margin-bottom: 24px;
+}
+
+h2 {
+    line-height: 48px;
+    margin-bottom: 24px;
+}
+
+p {
+    margin-bottom: 48px;
 }
 
 #left p {
     margin: 0px;
 }
 
-#left div {
-    margin-bottom: 2em;
+#left h2 {
+    margin-bottom: 0;
 }
 
 #content {
-  font-size: .9em;
   float: left;
-  max-width: 60%;
+  max-width: 672px;
 }
 
 ul {
   padding-left: 0;
   margin: 0;
+  margin-bottom: 0;
 }
 
 li {
@@ -67,14 +89,12 @@ li {
 
 #page-footer {
   clear: both;
-  margin: 1em;
-  padding-left: 260px;
+  margin: 24px;
+  margin-left: 0;
+  padding-left: 336px;
   font-size: smaller;
 }
 
-h1 {
-  color: #FEFF1F;
-}
 
 .event-entry {
   border-bottom: 1px dotted #FEFF1F;
@@ -92,6 +112,10 @@ h3.event-title {
 th {
   text-align: right;
   vertical-align: top;
+}
+
+p {
+    margin-bottom: 24px;
 }
 
 p.event-date {
