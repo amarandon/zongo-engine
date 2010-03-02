@@ -29,19 +29,22 @@ body {
 #page-heading p {
     margin-bottom: 0;
     text-shadow: black 0px 3px 10px;
+    letter-spacing: -1px;
 }
 
 h1 {
   color: #FEFF1F;
   font-size: 72px;
   margin-bottom: 36px;
+  letter-spacing: -7px;
+  white-space:nowrap;
   text-shadow: black 0px 3px 10px;
 }
 
 #page-heading-logo {
     float: left;
-    margin-left: 93px;
-    margin-right: 93px;
+    margin-left: 114px;
+    margin-right: 72px;
 }
 
 #left {
@@ -49,6 +52,7 @@ h1 {
   width: 216px;
   margin-left: 48px;
   margin-right: 72px;
+  text-align: left;
 }
 
 #left div {
@@ -56,6 +60,7 @@ h1 {
 }
 
 h2 {
+    letter-spacing: -1px;
     line-height: 48px;
     margin-bottom: 24px;
 }
