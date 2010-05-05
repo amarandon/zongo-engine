@@ -1,0 +1,25 @@
+{% extends "public/layout.html" %}
+{% block title %}
+{{ event.title }}
+{% endblock %}
+{% block public_content %}
+  <div class="event-entry">
+    <p class="event-date">
+    {{ event.formatted_date }}
+    </p>
+    <p class="event-location">
+    Lieu : {{ event.formatted_location }}
+    </p>
+    {% if event.image %}
+    <p class="event-image"><a class="img-link" href="/events/images/{{ event.id }}.jpg" 
+      title="Flyer {{event.title}} grand format"><img src="/events/small_images/{{ event.id }}.jpg" 
+      alt="Flyer {{event.title}} petit format"/>Flyer</a></p>
+    {% endif %}
+    {% for p in event.description_paragraphs %}
+    <p  class="event-description">
+    {{ p }}
+    </p>
+    {% endfor %}
+    <p class="clear"></p>
+  </div>
+{% endblock %}

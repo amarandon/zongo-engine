@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import re
+
 from datetime import datetime
 from google.appengine.ext import db
 from base import Model, rfc3339date
@@ -89,6 +91,7 @@ class Event(Model):
     location = db.StringProperty(required=True, verbose_name='Lieu')
     title = db.StringProperty(required=True, 
             verbose_name='Intitulé (pour le feed Atom)')
+    slug = db.StringProperty()
     description = db.TextProperty()
     image = db.BlobProperty()
     small_image = db.BlobProperty()
@@ -103,6 +106,20 @@ class Event(Model):
 
     def __init__(self, parent=None, key_name=None, **kw):
         Model.__init__(self, parent=parent, key_name=key_name, **kw)
+
+    def set_slug(self):
+        slug = self.title.replace(u'é', 'e').replace(u'à', 'a').replace(u'è', 'e')
+        slug = re.sub("[^A-Za-z0-1-]", "-", slug)
+        slug = slug.lower()
+        if isinstance(self.date, datetime):
+            year, month, day = self.date.year, self.date.month, self.date.day
+        else:
+            year, month, day = [int(part) for part in self.date.split("-")]
+        self.slug = '%02d-%02d-%04d-%s' % (day, month, year, slug)
+
+    def put(self, **kw):
+        self.set_slug()
+        Model.put(self, **kw)
 
     @property
     def formatted_date(self):

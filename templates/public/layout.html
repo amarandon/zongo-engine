@@ -24,7 +24,10 @@
   </div>
   <div id="contact">
     <h2>Contact</h2>
-    <span class="mystery">mat arobase zongosound point com</span>
+    <ul>
+      <li><span class="mystery">mat arobase zongosound point com</span></li>  
+      <li><span class="mystery">adriano arobase zongosound point com</span></li>
+    </ul>
   </div>
   <div id="friends">
     <h2>Liens</h2>
@@ -39,28 +42,8 @@
 </div>
 
 <div id="content">
-  <h2>Soirées / Dances</h2>
-  {% for event in events %}
-  <div class="event-entry">
-    <p class="event-date">
-    {{ event.formatted_date }}
-    </p>
-    <p class="event-location">
-    {{ event.formatted_location }}
-    </p>
-    {% if event.image %}
-    <p class="event-image"><a class="img-link" href="/events/images/{{ event.id }}.jpg" 
-      title="Flyer {{event.title}} grand format"><img src="/events/small_images/{{ event.id }}.jpg" 
-      alt="Flyer {{event.title}} petit format"/>Flyer</a></p>
-    {% endif %}
-    {% for p in event.description_paragraphs %}
-    <p  class="event-description">
-    {{ p }}
-    </p>
-    {% endfor %}
-    <p class="clear"></p>
-  </div>
-  {% endfor %}
+  {% block public_content %}
+  {% endblock %}
 </div>
 <script type="text/javascript">
   // <!--

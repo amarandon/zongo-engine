@@ -43,15 +43,15 @@ h1 {
 
 #page-heading-logo {
     float: left;
-    margin-left: 114px;
-    margin-right: 72px;
+    margin-left: 112px;
+    margin-right: 26px;
 }
+
 
 #left {
   float: left;
   width: 216px;
-  margin-left: 48px;
-  margin-right: 72px;
+  margin-left: 24px;
   text-align: left;
 }
 
@@ -78,8 +78,9 @@ p {
 }
 
 #content {
+  margin-left: 48px;
   float: left;
-  max-width: 672px;
+  width: 672px;
 }
 
 ul {
@@ -96,7 +97,7 @@ li {
   clear: both;
   margin: 24px;
   margin-left: 0;
-  padding-left: 336px;
+  padding-left: 290px;
   font-size: smaller;
 }
 
@@ -134,13 +135,17 @@ p.event-description {
     margin-top: 0;
 }
 
+p.event-permalink {
+  clear: both;
+}
+
 .clear {
   clear: both;
 }
 
-p.event-location {
-  color: black;
-  font-size: large;
+.event-location {
+  color: white;
+  font-size: x-large;
   font-family: monospace;
   font-weight: bold;
 }
@@ -148,6 +153,7 @@ p.event-location {
 p.event-image {
   float: left;
   margin: 0 1.8em .5em 0;
+  margin-bottom: 24px;
   padding: 4px 4px 0 4px;
   background: white;
   -moz-border-radius: 5px;
@@ -171,15 +177,6 @@ p.event-image a:hover {
 
 .img-link img {
     display: block;
-}
-
-
-p.event-location a {
-  color: black;
-}
-
-p.event-location a:hover {
-  background-color: #F9DA00;
 }
 
 /* Admin */

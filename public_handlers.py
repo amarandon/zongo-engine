@@ -6,8 +6,9 @@ from models import *
 from datetime import datetime
 
 class IndexPage(RequestHandler):
+
     def get(self):
-        self.render_to_response('index.html', 
+        self.render_to_response('public/index.html', 
                 events=Event.get_reversed_list(),
                 links=Link.get_public_list(),
                 tracks=Track.get_public_list(),
@@ -16,11 +17,27 @@ class IndexPage(RequestHandler):
 
 
 class TestPage(RequestHandler):
+
     def get(self):
         locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
         d = datetime.strptime('12/12/1977', '%d/%m/%Y')
         s = d.strftime('%A %d %B %Y')
         self.response.out.write(s)
+
+
+class EventPage(RequestHandler):
+
+    def get(self, slug):
+        event = Event.gql("WHERE slug = :1", slug).get()
+        if event:
+            self.render_to_response('public/event.html', 
+                    event=event,
+                    links=Link.get_public_list(),
+                    tracks=Track.get_public_list(),
+                    year=datetime.today().year
+                    )
+        else:
+            self.error(404)
 
 
 class EventImage(RequestHandler):

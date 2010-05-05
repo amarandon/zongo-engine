@@ -58,6 +58,7 @@ def application():
                ('/events/images/(\d+)', EventImage), 
                ('/events/images/(\d+).jpg', EventImage), 
                ('/events/small_images/(\d+).jpg', EventSmallImage), 
+               ('/events/([^/]+)/?', EventPage), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
     for model in models:
