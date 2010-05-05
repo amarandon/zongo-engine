@@ -16,6 +16,12 @@ class TestViewHandlers(BaseTest):
         Link(url=url, published=True).put()
         assert url in self.app.get('/')
 
+    def test_atom_feed(self):
+        location = 'Somewhere'
+        Event(title='foo', date=self.str2date('2009-01-01'), location=location, published=True).put()
+        response = self.app.get('/events/atom')
+        assert '/events/01-01-2009_foo' in response
+
     def test_not_published_link(self):
         url = "http://example.com"
         Link(url=url).put()
@@ -43,7 +49,7 @@ class TestViewHandlers(BaseTest):
         event = Event(title=title, date=self.str2date('2009-01-31'), location=location,
                 published=True)
         event.put()
-        slug = "31-01-2009-this-is-a-weird-title"
+        slug = "31-01-2009_this-is-a-weird-title"
         self.assertEqual(event.slug, slug)
         response = self.app.get('/events/%s' % slug)
         assert location in response, location + ' should be in ' + response.body

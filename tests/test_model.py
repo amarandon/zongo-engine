@@ -17,7 +17,7 @@ class TestModels(BaseTest):
         location = 'bar'
         event = Event(title='Hello World Event', location=location,
                             date='2009-01-25')
-        expected_slug = u'25-01-2009-hello-world-event'
+        expected_slug = u'25-01-2009_hello-world-event'
         event.put()
         event = Event.gql("WHERE slug = '%s'" % str(expected_slug)).get()
         assert event.location == location

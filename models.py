@@ -108,14 +108,17 @@ class Event(Model):
         Model.__init__(self, parent=parent, key_name=key_name, **kw)
 
     def set_slug(self):
-        slug = self.title.replace(u'é', 'e').replace(u'à', 'a').replace(u'è', 'e')
+        # TODO: detect duplicate
+        slug = self.title.replace(u'é', 'e').replace(u'à', 'a').replace(u'è',
+                'e').replace(u'ê', 'e')
+        slug = slug[:50]
         slug = re.sub("[^A-Za-z0-1-]", "-", slug)
         slug = slug.lower()
         if isinstance(self.date, datetime):
             year, month, day = self.date.year, self.date.month, self.date.day
         else:
             year, month, day = [int(part) for part in self.date.split("-")]
-        self.slug = '%02d-%02d-%04d-%s' % (day, month, year, slug)
+        self.slug = '%02d-%02d-%04d_%s' % (day, month, year, slug)
 
     def put(self, **kw):
         self.set_slug()

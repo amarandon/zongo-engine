@@ -63,6 +63,15 @@ class EventImage(RequestHandler):
         else:
             self.error(404)
 
+class EventImageFromSlug(RequestHandler):
+    def get(self, slug):
+        event = Event.gql("WHERE slug = :1", slug).get()
+        if event and event.image:
+            self.response.headers['Content-Type'] = "image/jpeg"
+            self.response.out.write(event.image)
+        else:
+            self.error(404)
+
 
 class EventSmallImage(RequestHandler):
     def get(self, id):
@@ -90,7 +99,7 @@ class EventSmallImage(RequestHandler):
 
 class EventsFeed(RequestHandler):
     def get(self):
-        event_list = Event.get_reversed_list()
+        event_list = Event.get_reversed_list(10, 1)
         updated_at_list = [event.updated_at for event in event_list]
         latest_updated_at = rfc3339date(max(updated_at_list))
 

@@ -57,6 +57,7 @@ def application():
                ('/events/atom', EventsFeed), 
                ('/events/images/(\d+)', EventImage), 
                ('/events/images/(\d+).jpg', EventImage), 
+               ('/events/images/Flyer-Zongo-Sound-([^/]+).jpg', EventImageFromSlug), 
                ('/events/small_images/(\d+).jpg', EventSmallImage), 
                ('/events/([^/]+)/?', EventPage), 
                ('/admin', AdminPage),

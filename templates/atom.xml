@@ -14,7 +14,7 @@
     {% comment %}
     <link href="{{host_url}}/events/{{event.url}}"/> 
     {% endcomment %}
-    <link href="{{host_url}}"/> 
+    <link href="{{host_url}}/events/{{event.slug}}"/> 
     <id>{{event.atom_id}}</id>
     <updated>{{event.atom_updated_at}}</updated>
     <summary type="html">
