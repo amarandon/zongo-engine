@@ -179,6 +179,14 @@ p.event-image a:hover {
     display: block;
 }
 
+.pagination-block {
+  margin-bottom: 24px;
+}
+
+.pagination-block a {
+  margin-right: 24px;
+}
+
 /* Admin */
 #admin_content {
   margin: 2em;

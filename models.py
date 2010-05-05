@@ -158,6 +158,7 @@ class Event(Model):
 
 
     @classmethod
-    def get_reversed_list(cls):
-        return cls.gql("WHERE published = True ORDER BY date DESC")
+    def get_reversed_list(cls, page_size, page):
+        query = cls.gql("WHERE published = True ORDER BY date DESC")
+        return query.fetch(page_size, offset=((page - 1) * page_size))
 

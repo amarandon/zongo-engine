@@ -5,11 +5,25 @@ from base import RequestHandler, rfc3339date, log
 from models import *
 from datetime import datetime
 
+
 class IndexPage(RequestHandler):
 
     def get(self):
+        page_size = 5
+        page = int(self.request.get('page', 1))
+        next_page = previous_page = 0
+
+        if page > 1:
+            next_page = page - 1
+
+        count = Event.all().count()
+        if page * page_size < count:
+            previous_page = page + 1
+
         self.render_to_response('public/index.html', 
-                events=Event.get_reversed_list(),
+                events=Event.get_reversed_list(page_size, page),
+                previous_page=previous_page,
+                next_page=next_page,
                 links=Link.get_public_list(),
                 tracks=Track.get_public_list(),
                 year=datetime.today().year
