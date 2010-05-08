@@ -41,10 +41,26 @@ h1 {
   text-shadow: black 0px 3px 10px;
 }
 
+#header-text {
+    float: left;
+}
+
 #page-heading-logo {
     float: left;
-    margin-left: 112px;
-    margin-right: 26px;
+    margin-left: 80px;
+    margin-right: 58px;
+    vertical-align: top;
+}
+
+#heading-wrap {
+    margin: auto;
+    width: 960px;
+}
+
+#wrap {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -75,6 +91,10 @@ p {
 
 #left h2 {
     margin-bottom: 0;
+}
+
+#contact li {
+    margin-bottom: 24px;
 }
 
 #content {
@@ -137,6 +157,11 @@ p.event-description {
 
 p.event-permalink {
   clear: both;
+}
+
+.feed-icon {
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
 .clear {
