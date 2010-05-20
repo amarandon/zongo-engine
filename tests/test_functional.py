@@ -54,6 +54,14 @@ class TestViewHandlers(BaseTest):
         response = self.app.get('/events/%s' % slug)
         assert location in response, location + ' should be in ' + response.body
 
+    def test_photo_page_should_have_links(self):
+        url = "http://example.com"
+        link = Link(url=url, published=True)
+        link.put()
+        response = self.app.get('/photos/')
+        assert url in response, url + " not found in " + str(response)
+
+
 class TestAdminHandlers(BaseTest):
 
     def test_create_event(self):

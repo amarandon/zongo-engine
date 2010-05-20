@@ -6,7 +6,16 @@ from models import *
 from datetime import datetime
 
 
-class IndexPage(RequestHandler):
+class PageHandler(RequestHandler):
+    def render_to_response(self, template_filename, **kw):
+        super(PageHandler, self).render_to_response(template_filename, 
+                links=Link.get_public_list(),
+                tracks=Track.get_public_list(),
+                year=datetime.today().year,
+                **kw)
+
+
+class IndexPage(PageHandler):
 
     def get(self):
         page_size = 5
@@ -23,10 +32,7 @@ class IndexPage(RequestHandler):
         self.render_to_response('public/index.html', 
                 events=Event.get_reversed_list(page_size, page),
                 previous_page=previous_page,
-                next_page=next_page,
-                links=Link.get_public_list(),
-                tracks=Track.get_public_list(),
-                year=datetime.today().year
+                next_page=next_page
                 )
 
 
@@ -39,21 +45,16 @@ class TestPage(RequestHandler):
         self.response.out.write(s)
 
 
-class EventPage(RequestHandler):
+class EventPage(PageHandler):
 
     def get(self, slug):
         event = Event.gql("WHERE slug = :1", slug).get()
         if event:
-            self.render_to_response('public/event.html', 
-                    event=event,
-                    links=Link.get_public_list(),
-                    tracks=Track.get_public_list(),
-                    year=datetime.today().year
-                    )
+            self.render_to_response('public/event.html', event=event)
         else:
             self.error(404)
 
-class PhotoGalleryHandler(RequestHandler):
+class PhotoGalleryHandler(PageHandler):
     def get(self):
         self.render_to_response('public/photo_gallery.html', photos=Image.all())
 

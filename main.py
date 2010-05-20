@@ -36,7 +36,6 @@ def admin_routes(Model):
             '/(\d+)/delete': 'Delete'
             }
     name = Model.__name__.lower()
-    log.debug(Model.admin_url)
     prefix = Model.admin_url
 
     class Form(djangoforms.ModelForm):

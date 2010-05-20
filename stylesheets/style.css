@@ -76,6 +76,7 @@ h1 {
 }
 
 h2 {
+    text-transform: uppercase;
     letter-spacing: -1px;
     line-height: 48px;
     margin-bottom: 24px;
@@ -122,11 +123,15 @@ li {
 }
 
 
-.event-entry {
+.event-entry, .photo-entry {
   border-bottom: 1px dotted #FEFF1F;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
+  padding-bottom: 24px;
+  margin-bottom: 47px;
   position: relative;
+}
+
+.photo-entry {
+    margin-top: 48px;
 }
 
 h3.event-title {
@@ -195,13 +200,6 @@ p.event-permalink {
   text-decoration: underline;
 }
 
-.photo-gallery-entry p {
-  font-size: 16px;
-  color: black;
-  text-align: left;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
 
 a.img-link:hover {
   background: transparent;
@@ -211,6 +209,10 @@ a.img-link:hover {
   color: #F9DA00;
   background-color: black;
   text-decoration: none;
+}
+
+.photo-credit {
+    clear: right;
 }
 
 .img-link img {

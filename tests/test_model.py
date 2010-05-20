@@ -13,7 +13,7 @@ class TestModels(BaseTest):
         event = Event(title='foo', location='bar', date='2009-01-01')
         event.put()
 
-    def test_populate_link(self):
+    def test_populate_event(self):
         location = 'bar'
         event = Event(title='Hello World Event', location=location,
                             date='2009-01-25')

@@ -2,14 +2,18 @@
 {% block public_content %}
   <h2>Photos</h2>
   {% for photo in photos %}
-  <div class="photo-gallery-entry event-image {% cycle first,last %}">
-    <a class="img-link" href="/photos/{{ photo.key }}/{{ photo.filename }}"><img src="/thumbnail/{{ photo.key }}/{{ photo.filename }}" alt="{{ photo.title }}" /></a>
+  <div class="photo-entry">
+  <h3 class="event-image">
+    <a class="img-link" href="/photos/{{ photo.key }}/{{ photo.filename }}"><img
+      src="/thumbnail/{{ photo.key }}/{{ photo.filename }}" alt="{{ photo.title }}" />{{ photo.title }}</a>
+  </h3>
     <p class="photo-description">{{ photo.description }}</p>
     {% if photo.credit %}
     <p class="photo-credit">
-        Photo réalisée par {{ photo.credit }}
+        Photo: {{ photo.credit }}
     </p>
     {% endif %}
+    <div class="clear"></div>
   </div>
   {% endfor %}
 {% endblock %}
