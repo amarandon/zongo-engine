@@ -53,6 +53,10 @@ class EventPage(RequestHandler):
         else:
             self.error(404)
 
+class PhotoGalleryHandler(RequestHandler):
+    def get(self):
+        self.render_to_response('public/photo_gallery.html', photos=Image.all())
+
 
 class EventImage(RequestHandler):
     def get(self, id):
@@ -62,6 +66,36 @@ class EventImage(RequestHandler):
             self.response.out.write(event.image)
         else:
             self.error(404)
+
+
+        
+
+
+class PhotoHandler(RequestHandler):
+    def get(self, key):
+        image = Image.get(key)
+        if image and image.image:
+            self.response.headers['Content-Type'] = "image/jpeg"
+            self.response.out.write(image.image)
+        else:
+            self.error(404)
+
+class ThumbnailHandler(RequestHandler):
+    def get(self, key):
+        image = Image.get(key)
+        if image and image.image:
+            if not image.thumbnail:
+                img = images.Image(image.image)
+                img.resize(height=192)
+                img.im_feeling_lucky()
+                image.thumbnail = img.execute_transforms(output_encoding=images.JPEG)
+                log.info("Creating thumbnail for %s", image.filename)
+                image.put()
+            self.response.headers['Content-Type'] = "image/jpeg"
+            self.response.out.write(image.thumbnail)
+        else:
+            self.error(404)
+
 
 class EventImageFromSlug(RequestHandler):
     def get(self, slug):

@@ -36,6 +36,7 @@ def admin_routes(Model):
             '/(\d+)/delete': 'Delete'
             }
     name = Model.__name__.lower()
+    log.debug(Model.admin_url)
     prefix = Model.admin_url
 
     class Form(djangoforms.ModelForm):
@@ -51,7 +52,7 @@ def admin_routes(Model):
 
 
 def application():
-    models = (Event, Track, Link)
+    models = (Event, Track, Link, Image)
     AdminPage.models = models
     routes = [ ('/', IndexPage), 
                ('/events/atom', EventsFeed), 
@@ -60,6 +61,9 @@ def application():
                ('/events/images/Flyer-Zongo-Sound-([^/]+).jpg', EventImageFromSlug), 
                ('/events/small_images/(\d+).jpg', EventSmallImage), 
                ('/events/([^/]+)/?', EventPage), 
+               ('/photos/?', PhotoGalleryHandler), 
+               ('/photos/([^/]+)/.+', PhotoHandler), 
+               ('/thumbnail/([^/]+)/.+', ThumbnailHandler), 
                ('/admin', AdminPage),
                ('/tests', TestPage) ]
     for model in models:

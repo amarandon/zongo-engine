@@ -1,0 +1,15 @@
+{% extends "public/layout.html" %}
+{% block public_content %}
+  <h2>Photos</h2>
+  {% for photo in photos %}
+  <div class="photo-gallery-entry event-image {% cycle first,last %}">
+    <a class="img-link" href="/photos/{{ photo.key }}/{{ photo.filename }}"><img src="/thumbnail/{{ photo.key }}/{{ photo.filename }}" alt="{{ photo.title }}" /></a>
+    <p class="photo-description">{{ photo.description }}</p>
+    {% if photo.credit %}
+    <p class="photo-credit">
+        Photo réalisée par {{ photo.credit }}
+    </p>
+    {% endif %}
+  </div>
+  {% endfor %}
+{% endblock %}

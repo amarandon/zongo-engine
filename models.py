@@ -5,7 +5,7 @@ import re
 
 from datetime import datetime
 from google.appengine.ext import db
-from base import Model, rfc3339date
+from base import Model, rfc3339date, ImageFileProperty, classproperty
 
 class Link(Model):
     title = db.StringProperty(default=" ", 
@@ -84,7 +84,25 @@ class StrDateTimeProperty(db.Property):
             value = datetime.strptime(value, "%d/%m/%Y")
         return value
 
+class Image(Model):
+    image = ImageFileProperty()
+    thumbnail = db.BlobProperty()
+    filename = db.StringProperty(required=True)
+    title = db.StringProperty(required=True)
+    credit = db.StringProperty()
+    description = db.TextProperty()
+    visible_properties = ('filename', 'title', 'description', 'credit', 'published')
 
+    code_name = 'image'
+    code_name_plural = 'images'
+
+    @classproperty
+    def verbose_name(cls):
+        return cls.code_name
+
+    @classproperty
+    def verbose_name_plural(cls):
+        return cls.code_name_plural
 
 class Event(Model):
     date = StrDateTimeProperty(required=True)
@@ -93,7 +111,7 @@ class Event(Model):
             verbose_name='Intitulé (pour le feed Atom)')
     slug = db.StringProperty()
     description = db.TextProperty()
-    image = db.BlobProperty()
+    image = ImageFileProperty()
     small_image = db.BlobProperty()
 
     verbose_name = 'événement'

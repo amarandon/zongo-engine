@@ -175,7 +175,7 @@ p.event-permalink {
   font-weight: bold;
 }
 
-p.event-image {
+.event-image {
   float: left;
   margin: 0 1.8em .5em 0;
   margin-bottom: 24px;
@@ -189,12 +189,25 @@ p.event-image {
   text-align: center;
 }
 
-p.event-image a {
+.event-image a {
   color: black;
+  font-weight: bold;
   text-decoration: underline;
 }
 
-p.event-image a:hover {
+.photo-gallery-entry p {
+  font-size: 16px;
+  color: black;
+  text-align: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+a.img-link:hover {
+  background: transparent;
+}
+
+.event-image a:hover {
   color: #F9DA00;
   background-color: black;
   text-decoration: none;
@@ -210,6 +223,16 @@ p.event-image a:hover {
 
 .pagination-block a {
   margin-right: 24px;
+}
+
+.photo-gallery-entry {
+  float: left;
+  margin-right: 48px;
+  margin-bottom: 48px;
+}
+
+.last {
+  margin-right: 0px;
 }
 
 /* Admin */
@@ -267,10 +290,6 @@ a {
 
 a:hover {
   background: black;
-}
-
-a.img-link:hover {
-  background: transparent;
 }
 
 #adminNav li {

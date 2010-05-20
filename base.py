@@ -20,6 +20,10 @@ def rfc3339date(datetime):
     return datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+class ImageFileProperty(db.BlobProperty):
+    pass
+
+
 class Model(db.Model):
 
     created_at = db.DateTimeProperty(auto_now_add=True)
@@ -65,6 +69,11 @@ class Model(db.Model):
     @property
     def formatted_published(self):
         return 'Oui' if self.published is True else 'Non'
+
+    @classproperty
+    def image_file_properties(cls):
+        return [key for (key, value) in cls.properties().items() if isinstance(value,
+            ImageFileProperty)]
 
 
 class RequestHandler(webapp.RequestHandler):

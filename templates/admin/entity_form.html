@@ -18,14 +18,15 @@
     {% endifequal %}
       <table>
       {{ form }}
-      {% ifequal model.code_name 'event' %}
+      {{ model.blob_properties }}
+      {% for image_field in model.image_file_properties %}
       <tr>
-        <th></th>
+        <th>Image</th>
         <td>
-          <input type="file" name="image"/>
+          <input type="file" name="{{ image_field }}"/>
         </td>
       </tr>
-      {% endifequal %}
+      {% endfor %}
       <tr>
         <th></th>
         <td>
