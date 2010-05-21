@@ -129,8 +129,9 @@ class Event(Model):
         # TODO: detect duplicate
         slug = self.title.replace(u'é', 'e').replace(u'à', 'a').replace(u'è',
                 'e').replace(u'ê', 'e')
-        slug = slug[:50]
-        slug = re.sub("[^A-Za-z0-1-]", "-", slug)
+        slug = slug[:100]
+        slug = re.sub("[^A-Za-z0-9-]+$", "", slug)
+        slug = re.sub("[^A-Za-z0-9-]+", "-", slug)
         slug = slug.lower()
         if isinstance(self.date, datetime):
             year, month, day = self.date.year, self.date.month, self.date.day

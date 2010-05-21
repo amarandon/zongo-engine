@@ -21,3 +21,11 @@ class TestModels(BaseTest):
         event.put()
         event = Event.gql("WHERE slug = '%s'" % str(expected_slug)).get()
         assert event.location == location
+
+    def test_prolematic_slug(self):
+        location = 'bar'
+        event = Event(title='Festipop 2010 avec Roots League, Lion Roots et ...  Iration Steppas !', location=location,
+                            date='2010-05-28')
+        expected_slug = u'28-05-2010_festipop-2010-avec-roots-league-lion-roots-et-iration-steppas'
+        event.put()
+        self.assertEqual(event.slug, expected_slug)
