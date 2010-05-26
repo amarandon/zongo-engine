@@ -55,6 +55,24 @@
 </div>
 <script type="text/javascript">
   // <!--
+      
+      // From http://www.sidroberts.co.uk/2008/06/06/getelementsbyclassname/
+      // Make getElementsByClassName available on IE.
+      Object.prototype.getElementsByClassName = document.getElementsByClassName = document.getElementsByClassName || function(className) {
+          className = className.replace(/\s+/g, ' ').replace(/^\s|![A-Za-z0-9-_\s]|\s$/g, '').split(' ');
+
+          for (var i = 0, elements = this.getElementsByTagName('*'), elementsLength = elements.length, b = [], classNameLength = className.length, passed = true; i < elementsLength; i++, passed = true) {
+              for (var j = 0; j < classNameLength && passed; j++) {
+                  passed = (new RegExp('(^|\\\s)' + className[j] + '(\\\s|$)', 'i')).test(elements[i].className);
+              }
+
+              if (passed) {
+                  b.push(elements[i]);
+              }
+          }
+
+          return b;
+      };
       window.onload=function(){
         var elems = document.getElementsByClassName('mystery');
         var txt, i = 0, x = '<a hr', y = 'ilto', z = 'ma';

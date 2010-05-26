@@ -33,12 +33,19 @@ body {
 }
 
 h1 {
+    /* This font is provided by Google font directory */
+  font-family: 'Droid Sans', arial, serif;
+  font-weight: bold;
   color: #FEFF1F;
   font-size: 72px;
-  margin-bottom: 36px;
+  line-height: 72px;
+  margin-top: 24px;
+  margin-bottom: 24px;
   letter-spacing: -7px;
   white-space:nowrap;
   text-shadow: black 0px 3px 10px;
+  /* Fix right handside of text being cropped on IE7 due do negative letter-spacing */
+  padding-right: 24px; 
 }
 
 #header-text {
