@@ -20,7 +20,6 @@ body {
     font-weight: bold;
     margin-top: 0.5em;
     margin-bottom: 48px;
-    padding: 0.3em;
     padding-left: 0;
     -moz-box-shadow: black 0px 3px 10px;
     -webkit-box-shadow: black 0px 1px 8px;
@@ -53,6 +52,7 @@ h1 {
 }
 
 #page-heading-logo {
+    visibility: hidden;
     float: left;
     margin-left: 80px;
     margin-right: 58px;
@@ -106,7 +106,7 @@ p {
 }
 
 #content {
-  margin-left: 48px;
+    margin-left: 48px;
   float: left;
   width: 672px;
 }
@@ -242,6 +242,10 @@ a.img-link:hover {
 
 .last {
   margin-right: 0px;
+}
+
+p.center {
+    text-align: center;
 }
 
 /* Admin */

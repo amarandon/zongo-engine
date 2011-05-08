@@ -54,6 +54,7 @@ def application():
     models = (Event, Track, Link, Image)
     AdminPage.models = models
     routes = [ ('/', IndexPage), 
+               ('/about/?', AboutHandler), 
                ('/events/atom', EventsFeed), 
                ('/events/images/(\d+)', EventImage), 
                ('/events/images/(\d+).jpg', EventImage), 

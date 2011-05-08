@@ -36,6 +36,8 @@ class IndexPage(PageHandler):
                 )
 
 
+
+
 class TestPage(RequestHandler):
 
     def get(self):
@@ -57,6 +59,11 @@ class EventPage(PageHandler):
 class PhotoGalleryHandler(PageHandler):
     def get(self):
         self.render_to_response('public/photo_gallery.html', photos=Image.all())
+
+
+class AboutHandler(PageHandler):
+    def get(self):
+        self.render_to_response('public/about.html')
 
 
 class EventImage(RequestHandler):
