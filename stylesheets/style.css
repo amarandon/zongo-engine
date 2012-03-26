@@ -109,6 +109,13 @@ p {
     margin-bottom: 0;
 }
 
+#radio ul {
+  padding-left: 1em;
+}
+#radio li {
+  list-style: square;
+}
+
 #contact li {
     margin-bottom: 24px;
 }
