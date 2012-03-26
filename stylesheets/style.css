@@ -20,6 +20,7 @@ body {
     font-weight: bold;
     margin-top: 0.5em;
     margin-bottom: 48px;
+    padding: 0.3em;
     padding-left: 0;
     -moz-box-shadow: black 0px 3px 10px;
     -webkit-box-shadow: black 0px 1px 8px;
@@ -51,8 +52,15 @@ h1 {
     float: left;
 }
 
+#header-text h1 {
+    margin-bottom: 12px;
+}
+
+#header-text p {
+    margin: 0;
+}
+
 #page-heading-logo {
-    visibility: hidden;
     float: left;
     margin-left: 80px;
     margin-right: 58px;
