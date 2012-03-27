@@ -91,10 +91,15 @@ h1 {
 }
 
 h2 {
+    margin-top: 0;
     text-transform: uppercase;
     letter-spacing: -1px;
-    line-height: 48px;
+    line-height: 24px;
     margin-bottom: 24px;
+}
+
+#left h2 {
+    line-height: 48px;
 }
 
 p {
@@ -186,9 +191,21 @@ p.event-permalink {
   clear: both;
 }
 
+#feed li {
+    margin-bottom: 10px;
+}
+
+#feed a:hover {
+  background-color: transparent;
+}
+
+#feed li:hover .label {
+  background-color: #000;
+}
+
 .feed-icon {
     vertical-align: middle;
-    margin-right: 5px;
+    padding-right: 5px;
 }
 
 .clear {

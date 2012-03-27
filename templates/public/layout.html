@@ -2,6 +2,19 @@
 {% block content %}
 
 <div id="left">
+  <div id="feed">
+    <ul>
+      <li>
+        <a href="http://soundcloud.com/zongosound"><img class="feed-icon" alt="soundcloud icon" src="/images/soundcloud-24x24.png" /><span class="label">SoundCloud</span></a>
+      </li>
+      <li>
+        <a href="http://twitter.com/zongosound"><img class="feed-icon" alt="twitter icon" src="/images/twitter-24x24.png" /><span class="label">Twitter</span></a>
+      </li>
+      <li>
+        <a href="/events/atom"><img class="feed-icon" alt="Feed icon" src="/images/feed-icon-24x24.png" /><span class="label">Feed Atom</span></a>
+      </li>
+    </ul>
+  </div>
   <div id="about">
     <h2><a href="/about/">About</a></h2>
   </div>
@@ -56,10 +69,6 @@
       </li>
       {% endfor %}
     </ul>
-  </div>
-  <div id="feed">
-    <h2><img class="feed-icon" alt="Feed icon" src="/images/feed-icon-28x28.png" />Agrégation</h2>
-    <a href="/events/atom">Feed Atom des soirées</a>
   </div>
 </div>
 
