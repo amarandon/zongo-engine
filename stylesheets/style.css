@@ -213,7 +213,7 @@ p.event-permalink {
   background-color: transparent;
 }
 
-#feed li:hover .label {
+#feed li a:hover .label {
   background-color: #000;
 }
 
