@@ -48,6 +48,15 @@ h1 {
   padding-right: 24px; 
 }
 
+h2 {
+  font-family: 'Droid Sans', arial, serif;
+  text-shadow: black 0px 2px 5px;
+}
+
+.heading-font {
+
+}
+
 #header-text {
     float: left;
 }
@@ -88,6 +97,11 @@ h1 {
 
 #left div {
     margin-bottom: 24px;
+}
+
+#left #playlist #compil-blurb {
+  margin: 12px 0;
+
 }
 
 h2 {
@@ -188,7 +202,7 @@ p.event-description {
 }
 
 p.event-permalink {
-  clear: both;
+  margin-bottom: 0;
 }
 
 #feed li {
@@ -210,6 +224,7 @@ p.event-permalink {
 
 .clear {
   clear: both;
+  margin: 0;
 }
 
 .event-location {
@@ -219,30 +234,39 @@ p.event-permalink {
   font-weight: bold;
 }
 
+.thumbnail,
+.thumbnail:hover {
+  background-color: transparent;
+}
+
+.thumbnail img {
+  background-color: white;
+  padding: 5px;
+  border: 1px solid black;
+
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+
+  box-shadow: black 0px 3px 10px;
+  -moz-box-shadow: black 0px 3px 10px;
+  -webkit-box-shadow: black 0px 1px 8px;
+}
+
 .event-image {
   float: left;
   margin: 0 1.8em .5em 0;
-  margin-bottom: 24px;
-  padding: 4px 4px 0 4px;
-  background: white;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-box-shadow: black 0px 3px 10px;
-  -webkit-box-shadow: black 0px 1px 8px;
+  padding: 5px;
   font-size: small;
   text-align: center;
 }
 
 .event-image a {
-  color: black;
+  color: #F9DA00;
   font-weight: bold;
   text-decoration: underline;
 }
 
-
-a.img-link:hover {
-  background: transparent;
-}
 
 .event-image a:hover {
   color: #F9DA00;

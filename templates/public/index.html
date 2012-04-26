@@ -14,11 +14,13 @@
   </div>
   {% for event in events %}
   <div class="event-entry">
-    {% include "public/event_entry.html" %}
+    <div class="event-container">
+      {% include "public/event_entry.html" %}
+      <p class="clear"></p>
+    </div>
     <p class="event-permalink">
     <a href="/events/{{ event.slug }}" title="Utilisez ce lien pour pointer vers cet événement depuis votre site.">Lien permanent</a>
     </p>
-    <p class="clear"></p>
   </div>
   {% endfor %}
   <div class="pagination-block">

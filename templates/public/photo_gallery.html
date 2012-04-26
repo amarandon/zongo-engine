@@ -3,7 +3,7 @@
   <h2>Photos</h2>
   {% for photo in photos %}
   <div class="photo-entry">
-  <h3 class="event-image">
+  <h3 class="thumbnail event-image">
     <a class="img-link" href="/photos/{{ photo.key }}/{{ photo.filename }}"><img
       src="/thumbnail/{{ photo.key }}/{{ photo.filename }}" alt="{{ photo.title }}" />{{ photo.title }}</a>
   </h3>
