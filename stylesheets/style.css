@@ -166,9 +166,14 @@ li {
 
 .event-entry, .photo-entry {
   border-bottom: 1px dotted #FEFF1F;
-  padding-bottom: 24px;
+  padding-bottom: 48px;
   margin-bottom: 47px;
   position: relative;
+}
+
+.event-entry:nth-child(3) {
+  border-top: 1px dotted #FEFF1F;
+  padding-top: 24px;
 }
 
 .photo-entry {
@@ -283,7 +288,7 @@ p.event-permalink {
 }
 
 .pagination-block {
-  margin-bottom: 24px;
+  margin-bottom: 48px;
 }
 
 .pagination-block a {
