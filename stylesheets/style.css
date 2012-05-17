@@ -360,10 +360,29 @@ textarea {
 
 a {
   color: #F9DA00;
+  -webkit-transition: all 0.35s ease;
+  -moz-transition: all 0.35s ease;
+  -o-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 3px 5px;
+  margin-left: -3px;
+  text-decoration: underline;
+}
+
+.photo-entry a {
+  padding: 0;
+  margin-left: 0px;
 }
 
 a:hover {
   background: black;
+}
+
+#heading-wrap a:hover {
+  background-color: transparent;
 }
 
 #adminNav li {
