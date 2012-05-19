@@ -165,13 +165,13 @@ li {
 
 
 .event-entry, .photo-entry {
-  border-bottom: 1px dotted #FEFF1F;
-  padding-bottom: 48px;
-  margin-bottom: 47px;
   position: relative;
+  padding-top: 24px;
+  padding-bottom: 47px;
+  border-bottom: 1px dotted #FEFF1F;
 }
 
-.event-entry:nth-child(3) {
+.event-entry.first {
   border-top: 1px dotted #FEFF1F;
   padding-top: 24px;
 }
@@ -272,11 +272,13 @@ p.event-permalink {
   text-decoration: underline;
 }
 
+.photo-entry h3 {
+  margin-left: -5px;
+  margin-top: -3px;
+}
 
-.event-image a:hover {
-  color: #F9DA00;
-  background-color: black;
-  text-decoration: none;
+.photo-description {
+    margin-top: 0;
 }
 
 .photo-credit {
@@ -288,7 +290,11 @@ p.event-permalink {
 }
 
 .pagination-block {
-  margin-bottom: 48px;
+  margin-bottom: 24px;
+}
+
+.pagination-block.bottom {
+  margin-top: 24px;
 }
 
 .pagination-block a {
@@ -360,16 +366,25 @@ textarea {
 
 a {
   color: #F9DA00;
-  -webkit-transition: all 0.35s ease;
-  -moz-transition: all 0.35s ease;
-  -o-transition: all 0.35s ease;
-  transition: all 0.35s ease;
+}
+
+a.img-link .caption,
+a:not(.thumbnail):not(.img-link) {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  padding: 3px 5px;
+  padding: 2px 3px;
   margin-left: -3px;
-  text-decoration: underline;
+}
+
+a:not(.img-link):hover,
+a.img-link:hover .caption,
+a.img-link img:hover + .caption /* For FF */ {
+  background-color: black;
 }
 
 .photo-entry a {
@@ -377,9 +392,6 @@ a {
   margin-left: 0px;
 }
 
-a:hover {
-  background: black;
-}
 
 #heading-wrap a:hover {
   background-color: transparent;

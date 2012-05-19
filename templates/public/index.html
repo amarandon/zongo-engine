@@ -1,19 +1,19 @@
 {% extends "public/layout.html" %}
 {% block public_content %}
   <h2>Soirées / Dances</h2>
-  <div class="pagination-block">
   {% if next_page %}
+  <div class="pagination-block">
     {% if previous_page %}
     <a href="?page={{ previous_page }}" 
-      title="Voir les soirées plus anciennes">&lt;&lt; Soirées plus
+      title="Voir les soirées plus anciennes">&larr;&nbsp;Soirées plus
       anciennes</a>
     {% endif %}
     <a href="?page={{ next_page }}" title="Voir les soirées plus récentes">Soirées plus
-      récentes&gt;&gt;</a>
-  {% endif %}
+      récentes&rarr;</a>
   </div>
+  {% endif %}
   {% for event in events %}
-  <div class="event-entry">
+  <div class="event-entry{% if forloop.first %} first{% endif %}">
     <div class="event-container">
       {% include "public/event_entry.html" %}
       <p class="clear"></p>
@@ -23,15 +23,15 @@
     </p>
   </div>
   {% endfor %}
-  <div class="pagination-block">
+  <div class="pagination-block bottom">
   {% if previous_page %}
   <a href="?page={{ previous_page }}" 
-    title="Voir les soirées plus anciennes">&lt;&lt; Soirées plus
+    title="Voir les soirées plus anciennes">&larr; Soirées plus
     anciennes</a>
   {% endif %}
   {% if next_page %}
   <a href="?page={{ next_page }}" title="Voir les soirées plus récentes">Soirées plus
-    récentes&gt;&gt;</a>
+    récentes&nbsp;&rarr;</a>
   {% endif %}
   </div>
 {% endblock %}

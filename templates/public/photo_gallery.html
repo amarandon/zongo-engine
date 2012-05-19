@@ -5,7 +5,8 @@
   <div class="photo-entry">
   <h3 class="thumbnail event-image">
     <a class="img-link" href="/photos/{{ photo.key }}/{{ photo.filename }}"><img
-      src="/thumbnail/{{ photo.key }}/{{ photo.filename }}" alt="{{ photo.title }}" />{{ photo.title }}</a>
+      src="/thumbnail/{{ photo.key }}/{{ photo.filename }}" alt="{{ photo.title }}" />
+      <span class="caption">{{ photo.title }}</span></a>
   </h3>
     <p class="photo-description">{{ photo.description }}</p>
     {% if photo.credit %}
