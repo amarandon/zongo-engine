@@ -381,7 +381,7 @@ a:not(.thumbnail):not(.img-link) {
   margin-left: -3px;
 }
 
-a:not(.img-link):hover,
+a:not(.img-link):not(.thumbnail):hover,
 a.img-link:hover .caption,
 a.img-link img:hover + .caption /* For FF */ {
   background-color: black;
