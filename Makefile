@@ -8,3 +8,6 @@ dumpdb:
 
 restoredb:
 	python ../lib/google_appengine/bulkloader.py --app_id=dev~zongo-hrd --batch_size=1 --restore --url=http://localhost:8080/remote_api --email=test@example.com --filename=data.csv
+
+deploy:
+	python ../lib/google_appengine/appcfg.py update .
