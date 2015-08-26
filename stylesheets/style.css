@@ -1,3 +1,11 @@
+html {
+  background: url(/images/background.jpg) no-repeat center 15% fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 img {
     border: none;
     margin: 0px;
@@ -6,7 +14,7 @@ img {
 .clear { clear: both; }
 
 body {
-    background: #000;
+    background: rgba(0, 0, 0, 0.2);
     font-family: Arial, sans-serif;
     color: white;
     margin: 0;
