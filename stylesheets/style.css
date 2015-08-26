@@ -1,4 +1,5 @@
 html {
+  background-color: black;
   background: url(/images/background.jpg) no-repeat center 15% fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
