@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 # Must set this env var *before* importing any part of Django
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
-from google.appengine.ext.db import djangoforms
+import djangoforms
 from public_handlers import *
 from admin_handlers import *
 
