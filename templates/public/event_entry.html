@@ -11,6 +11,6 @@ Lieu : {{ event.formatted_location }}
 {% endif %}
 {% for p in event.description_paragraphs %}
 <p  class="event-description">
-{{ p }}
+{{ p|safe }}
 </p>
 {% endfor %}

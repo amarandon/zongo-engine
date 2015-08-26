@@ -22,3 +22,5 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     ROOT_PATH + '/templates'
 )
+
+SECRET_KEY = "weizaet7oomah9cahkoh3aeMuR3Git1oo"
